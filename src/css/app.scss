@@ -1,1 +1,72 @@
-// app global css
+// app global css in SCSS form
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+
+body {
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  letter-spacing: -0.01em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+// Cards SaaS Styling
+.q-card {
+  border-radius: 12px;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+body.body--light {
+  background-color: #F8F9FA;
+
+  .q-card {
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+  }
+
+  .stat-card {
+    background: #FFFFFF;
+    border: 1px solid rgba(123, 63, 97, 0.08);
+  }
+}
+
+body.body--dark {
+  background-color: #0D0E11;
+
+  .q-card {
+    background: #15171C;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .stat-card {
+    background: #181A20;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+}
+
+// Botões com microinteração
+.q-btn {
+  text-transform: none;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+// Diálogos e Modais
+.q-dialog__inner--minimized > div {
+  max-width: 95vw;
+}
+
+// Tabelas Quasar
+.q-table__container {
+  border-radius: 12px;
+}
+
+// Utilitários de texto e moeda
+.text-currency {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+.brand-gradient {
+  background: linear-gradient(135deg, #7B3F61 0%, #C59B6D 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
