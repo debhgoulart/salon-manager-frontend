@@ -2,6 +2,7 @@
 // https://v2.quasar.dev/quasar-cli-vite/quasar-config-file
 
 import { defineConfig } from '#q-app';
+import { fileURLToPath } from 'node:url';
 
 export default defineConfig((/* ctx */) => {
   return {
@@ -55,7 +56,13 @@ export default defineConfig((/* ctx */) => {
       // minify: false,
       // distDir
 
-      // extendViteConf (viteConf) {},
+      extendViteConf(viteConf) {
+        viteConf.resolve = viteConf.resolve || {};
+        viteConf.resolve.alias = {
+          ...viteConf.resolve.alias,
+          src: fileURLToPath(new URL('./src', import.meta.url)),
+        };
+      },
       // viteVuePluginOptions: {},
 
       // to write components with JSX/TSX:
