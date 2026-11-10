@@ -2,8 +2,8 @@ export interface ClientRequest {
   name: string;
   email: string;
   phone: string;
-  cpf?: string;
-  notes?: string;
+  cpf?: string | undefined;
+  notes?: string | undefined;
 }
 
 export interface ClientResponse {
@@ -11,8 +11,8 @@ export interface ClientResponse {
   name: string;
   email: string;
   phone: string;
-  cpf?: string;
-  notes?: string;
+  cpf?: string | null;
+  notes?: string | null;
   active: boolean;
   createdAt?: string;
   updatedAt?: string;
