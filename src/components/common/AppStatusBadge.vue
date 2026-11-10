@@ -12,7 +12,7 @@
 import { computed } from 'vue';
 
 const props = defineProps<{
-  status?: string | boolean | null;
+  status?: string | boolean | null | undefined;
 }>();
 
 const badgeColor = computed(() => {

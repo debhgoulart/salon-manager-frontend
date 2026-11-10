@@ -11,7 +11,7 @@ export interface AppointmentCreateRequest {
   clientId: string;
   serviceId: string;
   startTime: string; // ISO 8601 UTC ex: 2026-11-10T14:30:00Z
-  notes?: string;
+  notes?: string | undefined;
 }
 
 export interface AppointmentStatusUpdateRequest {
