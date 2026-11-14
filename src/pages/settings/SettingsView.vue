@@ -4,7 +4,9 @@
     <div class="row items-center justify-between q-mb-lg">
       <div>
         <h1 class="text-h5 text-weight-bold q-my-none">Configurações do Sistema</h1>
-        <p class="text-caption text-grey-7 q-mb-none">Preferências visuais, dados da empresa e conectividade da API</p>
+        <p class="text-caption text-grey-7 q-mb-none">
+          Preferências visuais, dados da empresa e conectividade da API
+        </p>
       </div>
     </div>
 
@@ -30,7 +32,11 @@
                   {{ themeStore.isDark ? 'Modo Escuro Ativo' : 'Modo Claro Ativo' }}
                 </div>
                 <div class="text-caption text-grey-6">
-                  {{ themeStore.isDark ? 'Superfície escura com tons neutros' : 'Fundo neutro com alta legibilidade' }}
+                  {{
+                    themeStore.isDark
+                      ? 'Superfície escura com tons neutros'
+                      : 'Fundo neutro com alta legibilidade'
+                  }}
                 </div>
               </div>
             </div>
@@ -57,14 +63,18 @@
             <q-item class="q-py-sm">
               <q-item-section>
                 <div class="text-caption text-grey-6">Nome do Operador</div>
-                <div class="text-body2 text-weight-bold">{{ authStore.user?.name || 'Administrador Padrão' }}</div>
+                <div class="text-body2 text-weight-bold">
+                  {{ authStore.user?.name || 'Administrador Padrão' }}
+                </div>
               </q-item-section>
             </q-item>
 
             <q-item class="q-py-sm">
               <q-item-section>
                 <div class="text-caption text-grey-6">E-mail Cadastrado</div>
-                <div class="text-body2 text-weight-bold">{{ authStore.user?.email || 'admin@salonmanager.com' }}</div>
+                <div class="text-body2 text-weight-bold">
+                  {{ authStore.user?.email || 'admin@salonmanager.com' }}
+                </div>
               </q-item-section>
             </q-item>
 
@@ -98,7 +108,13 @@
             <q-input v-model="salonName" label="Nome Fantasia" outlined dense />
             <div class="row q-col-gutter-md">
               <div class="col-12 col-sm-6">
-                <q-input v-model="salonPhone" label="Telefone / WhatsApp" outlined dense mask="(##) #####-####" />
+                <q-input
+                  v-model="salonPhone"
+                  label="Telefone / WhatsApp"
+                  outlined
+                  dense
+                  mask="(##) #####-####"
+                />
               </div>
               <div class="col-12 col-sm-6">
                 <q-input v-model="salonHours" label="Horário de Funcionamento" outlined dense />
@@ -107,7 +123,13 @@
             <q-input v-model="salonAddress" label="Endereço Completo" outlined dense />
 
             <div class="row justify-end q-mt-sm">
-              <q-btn unelevated color="primary" no-caps label="Salvar Dados" @click="saveSalonInfo" />
+              <q-btn
+                unelevated
+                color="primary"
+                no-caps
+                label="Salvar Dados"
+                @click="saveSalonInfo"
+              />
             </div>
           </div>
         </q-card>
@@ -203,10 +225,10 @@ onMounted(() => {
 <style scoped>
 .settings-card {
   border-radius: 12px;
-  background: #FFFFFF;
+  background: #ffffff;
 }
 body.body--dark .settings-card {
-  background: #15171C;
+  background: #15171c;
 }
 
 .bg-surface-alt {

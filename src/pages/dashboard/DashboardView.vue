@@ -4,7 +4,9 @@
     <div class="row items-center justify-between q-mb-lg">
       <div>
         <h1 class="text-h5 text-weight-bold q-my-none">Visão Executiva</h1>
-        <p class="text-caption text-grey-7 q-mb-none">Métricas de rentabilidade, produtividade e atendimentos</p>
+        <p class="text-caption text-grey-7 q-mb-none">
+          Métricas de rentabilidade, produtividade e atendimentos
+        </p>
       </div>
 
       <div class="row items-center q-gutter-x-sm">
@@ -93,7 +95,9 @@
             <CheckCircle2 :size="18" />
           </q-avatar>
           <div>
-            <div class="text-h6 text-weight-bold leading-none">{{ overview.completedAppointmentsCount }}</div>
+            <div class="text-h6 text-weight-bold leading-none">
+              {{ overview.completedAppointmentsCount }}
+            </div>
             <div class="text-caption text-grey-6">Atendimentos Concluídos</div>
           </div>
         </q-card>
@@ -105,7 +109,9 @@
             <XCircle :size="18" />
           </q-avatar>
           <div>
-            <div class="text-h6 text-weight-bold leading-none">{{ overview.canceledAppointmentsCount }}</div>
+            <div class="text-h6 text-weight-bold leading-none">
+              {{ overview.canceledAppointmentsCount }}
+            </div>
             <div class="text-caption text-grey-6">Cancelamentos</div>
           </div>
         </q-card>
@@ -117,7 +123,9 @@
             <Users :size="18" />
           </q-avatar>
           <div>
-            <div class="text-h6 text-weight-bold leading-none">{{ overview.activeClientsCount }}</div>
+            <div class="text-h6 text-weight-bold leading-none">
+              {{ overview.activeClientsCount }}
+            </div>
             <div class="text-caption text-grey-6">Clientes em Atividade</div>
           </div>
         </q-card>
@@ -129,7 +137,9 @@
             <UserCheck :size="18" />
           </q-avatar>
           <div>
-            <div class="text-h6 text-weight-bold leading-none">{{ overview.activeEmployeesCount }}</div>
+            <div class="text-h6 text-weight-bold leading-none">
+              {{ overview.activeEmployeesCount }}
+            </div>
             <div class="text-caption text-grey-6">Profissionais Ativos</div>
           </div>
         </q-card>
@@ -142,7 +152,9 @@
       <div class="col-12 col-md-7">
         <q-card flat class="q-pa-md chart-card fit">
           <div class="text-subtitle1 text-weight-bold q-mb-xs">Comparativo Financeiro</div>
-          <div class="text-caption text-grey-6 q-mb-md">Receitas apuradas vs. Despesas e Comissões</div>
+          <div class="text-caption text-grey-6 q-mb-md">
+            Receitas apuradas vs. Despesas e Comissões
+          </div>
           <VueApexCharts
             type="bar"
             height="260"
@@ -178,29 +190,51 @@
         <q-card flat class="table-card fit">
           <div class="q-pa-md border-bottom row items-center justify-between">
             <span class="text-subtitle2 text-weight-bold">Profissionais com Maior Faturamento</span>
-            <q-btn flat dense no-caps size="sm" color="primary" to="/funcionarios" label="Ver Equipe" />
+            <q-btn
+              flat
+              dense
+              no-caps
+              size="sm"
+              color="primary"
+              to="/funcionarios"
+              label="Ver Equipe"
+            />
           </div>
 
-          <div v-if="topEmployees.length === 0" class="q-pa-md text-center text-grey-6 text-caption">
+          <div
+            v-if="topEmployees.length === 0"
+            class="q-pa-md text-center text-grey-6 text-caption"
+          >
             Nenhum atendimento faturado no período selecionado.
           </div>
 
           <q-list v-else separator>
             <q-item v-for="(emp, idx) in topEmployees" :key="emp.employeeId" class="q-py-sm">
               <q-item-section avatar>
-                <q-avatar size="28px" :color="idx === 0 ? 'secondary' : 'grey-3'" :text-color="idx === 0 ? 'white' : 'grey-8'" class="text-weight-bold text-caption">
+                <q-avatar
+                  size="28px"
+                  :color="idx === 0 ? 'secondary' : 'grey-3'"
+                  :text-color="idx === 0 ? 'white' : 'grey-8'"
+                  class="text-weight-bold text-caption"
+                >
                   {{ idx + 1 }}
                 </q-avatar>
               </q-item-section>
 
               <q-item-section>
                 <div class="text-weight-bold text-body2">{{ emp.employeeName }}</div>
-                <div class="text-caption text-grey-6">{{ emp.executionCount }} serviços realizados</div>
+                <div class="text-caption text-grey-6">
+                  {{ emp.executionCount }} serviços realizados
+                </div>
               </q-item-section>
 
               <q-item-section side class="text-right">
-                <div class="text-weight-bold text-primary">{{ formatCurrency(emp.totalBilled) }}</div>
-                <div class="text-caption text-grey-6">Comissão: {{ formatCurrency(emp.totalCommission) }}</div>
+                <div class="text-weight-bold text-primary">
+                  {{ formatCurrency(emp.totalBilled) }}
+                </div>
+                <div class="text-caption text-grey-6">
+                  Comissão: {{ formatCurrency(emp.totalCommission) }}
+                </div>
               </q-item-section>
             </q-item>
           </q-list>
@@ -215,7 +249,10 @@
             <q-btn flat dense no-caps size="sm" color="primary" to="/agenda" label="Abrir Agenda" />
           </div>
 
-          <div v-if="upcomingAppointments.length === 0" class="q-pa-md text-center text-grey-6 text-caption">
+          <div
+            v-if="upcomingAppointments.length === 0"
+            class="q-pa-md text-center text-grey-6 text-caption"
+          >
             Não há atendimentos pendentes agendados para os próximos horários.
           </div>
 
@@ -227,7 +264,8 @@
                   <AppStatusBadge :status="app.status" />
                 </div>
                 <div class="text-caption text-grey-7 q-mt-xs">
-                  {{ app.serviceName }} • <span class="text-weight-medium">{{ app.employeeName }}</span>
+                  {{ app.serviceName }} •
+                  <span class="text-weight-medium">{{ app.employeeName }}</span>
                 </div>
               </q-item-section>
 
@@ -333,7 +371,12 @@ async function loadDashboardData() {
 const financialChartSeries = computed(() => [
   {
     name: 'Total (R$)',
-    data: [overview.totalRevenue, overview.totalExpenses, overview.totalCommissions, overview.netProfit],
+    data: [
+      overview.totalRevenue,
+      overview.totalExpenses,
+      overview.totalCommissions,
+      overview.netProfit,
+    ],
   },
 ]);
 
@@ -388,17 +431,17 @@ onMounted(() => {
 }
 .counter-card {
   border-radius: 10px;
-  background: #FFFFFF;
+  background: #ffffff;
 }
 body.body--dark .counter-card {
-  background: #15171C;
+  background: #15171c;
 }
 .chart-card {
   border-radius: 12px;
-  background: #FFFFFF;
+  background: #ffffff;
 }
 body.body--dark .chart-card {
-  background: #15171C;
+  background: #15171c;
 }
 .leading-none {
   line-height: 1;

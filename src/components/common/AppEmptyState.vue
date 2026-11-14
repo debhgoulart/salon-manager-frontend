@@ -24,7 +24,7 @@ withDefaults(
   {
     title: 'Nenhum registro encontrado',
     description: 'Não há itens correspondentes aos filtros aplicados.',
-  }
+  },
 );
 </script>
 

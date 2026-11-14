@@ -12,6 +12,6 @@ withDefaults(
   }>(),
   {
     message: 'Carregando dados...',
-  }
+  },
 );
 </script>

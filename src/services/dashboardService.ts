@@ -14,14 +14,22 @@ export const dashboardService = {
     return data;
   },
 
-  async getTopServices(startDate?: string, endDate?: string, limit = 5): Promise<TopServiceResponse[]> {
+  async getTopServices(
+    startDate?: string,
+    endDate?: string,
+    limit = 5,
+  ): Promise<TopServiceResponse[]> {
     const { data } = await apiClient.get<TopServiceResponse[]>('/api/v1/dashboard/top-services', {
       params: { startDate, endDate, limit },
     });
     return data;
   },
 
-  async getTopEmployees(startDate?: string, endDate?: string, limit = 5): Promise<TopEmployeeResponse[]> {
+  async getTopEmployees(
+    startDate?: string,
+    endDate?: string,
+    limit = 5,
+  ): Promise<TopEmployeeResponse[]> {
     const { data } = await apiClient.get<TopEmployeeResponse[]>('/api/v1/dashboard/top-employees', {
       params: { startDate, endDate, limit },
     });
@@ -29,9 +37,12 @@ export const dashboardService = {
   },
 
   async getUpcomingAppointments(limit = 5): Promise<UpcomingAppointmentResponse[]> {
-    const { data } = await apiClient.get<UpcomingAppointmentResponse[]>('/api/v1/dashboard/upcoming-appointments', {
-      params: { limit },
-    });
+    const { data } = await apiClient.get<UpcomingAppointmentResponse[]>(
+      '/api/v1/dashboard/upcoming-appointments',
+      {
+        params: { limit },
+      },
+    );
     return data;
   },
 };

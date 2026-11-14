@@ -92,8 +92,8 @@ const router = useRouter();
 const route = useRoute();
 const authStore = useAuthStore();
 
-const email = ref('admin@salonmanager.com');
-const password = ref('admin@123456');
+const email = ref('');
+const password = ref('');
 const showPassword = ref(false);
 const loading = ref(false);
 const errorMessage = ref<string | null>(null);
@@ -123,7 +123,8 @@ async function handleLogin() {
     } else if (error.response?.status === 401) {
       errorMessage.value = 'E-mail ou senha incorretos.';
     } else {
-      errorMessage.value = 'Não foi possível conectar ao servidor. Verifique se o backend está em execução.';
+      errorMessage.value =
+        'Não foi possível conectar ao servidor. Verifique se o backend está em execução.';
     }
   } finally {
     loading.value = false;
@@ -149,7 +150,7 @@ body.body--dark .login-card {
   width: 52px;
   height: 52px;
   border-radius: 14px;
-  background: linear-gradient(135deg, #7B3F61 0%, #C59B6D 100%);
+  background: linear-gradient(135deg, #7b3f61 0%, #c59b6d 100%);
   color: #fff;
   font-weight: 700;
   font-size: 1.25rem;

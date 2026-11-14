@@ -26,7 +26,9 @@ Sync Impact Report:
 ## Core Principles
 
 ### I. Modularidade por Domínio e Separação Estrita de Responsabilidades
-A arquitetura da aplicação MUST respeitar uma separação rígida de camadas e organizar o código por domínio funcional (agendamentos, clientes, colaboradores, serviços, financeiro, fechamento contábil). 
+
+A arquitetura da aplicação MUST respeitar uma separação rígida de camadas e organizar o código por domínio funcional (agendamentos, clientes, colaboradores, serviços, financeiro, fechamento contábil).
+
 - A camada de apresentação (Vue Components / Pages) MUST NOT conter chamadas HTTP diretas, cálculos complexos de regras financeiras ou mutações manuais de estado global.
 - O código MUST ser segregado nas seguintes camadas bem definidas:
   1. **Apresentação (`views`, `components`):** Responsável estritamente pela renderização visual, bindings reativos e eventos de interação do usuário.
@@ -37,17 +39,21 @@ A arquitetura da aplicação MUST respeitar uma separação rígida de camadas e
 - Componentes de visualização (`Views`) que excedam 300 linhas de código MUST ser decompostos em subcomponentes de apresentação coesos e composables de lógica dedicados.
 
 ### II. Comunicação HTTP Padronizada e Contratos Rígidos com Spring Boot
+
 Toda e qualquer comunicação de rede MUST transitar exclusivamente através da instância centralizada do cliente HTTP (`src/services/api.ts`) e dos serviços especializados em `src/services/`.
+
 - É expressamente proibido invocar `axios.get/post/put/delete` diretamente de dentro de componentes Vue, páginas ou stores.
 - Os modelos de dados MUST manter compatibilidade estrita com os padrões do backend Java Spring Boot:
   - Listagens paginadas MUST utilizar a interface genérica `PageResponse<T>`.
   - Falhas e exceções MUST ser tratadas aderindo ao padrão RFC 7807 / RFC 9457 (`ProblemDetails`), com extração e exibição apropriada de `detail`, `title` e lista de `invalidParams`.
-- O interceptor HTTP centralizado é responsável por injetar tokens JWT (`Bearer`), orquestrar renovação transparente via *refresh token* e encerrar a sessão caso a renovação falhe.
+- O interceptor HTTP centralizado é responsável por injetar tokens JWT (`Bearer`), orquestrar renovação transparente via _refresh token_ e encerrar a sessão caso a renovação falhe.
 - É expressamente proibido capturar erros de requisições com blocos `catch { }` vazios ou que silenciem falhas sem feedback visual explícito ao operador do sistema.
 - Regras de negócio pertencem ao backend Spring Boot (ex: apuração de comissões, travamento de competência contábil encerrada `ClosedPeriodException`, validação de disponibilidade e choque de horários). O frontend MUST consumir e refletir as validações da API, sem tentar duplicar ou reinventar regras de negócio do servidor.
 
 ### III. Design System Boutique, Estados Completos de Interface e Acessibilidade (NON-NEGOTIABLE)
-O Salon Manager adota o padrão estético **SaaS Boutique Contemporâneo** (Vinho Nobre `#7B3F61`, Champagne Dourado `#C59B6D`, superfícies elegantes, tipografia *Plus Jakarta Sans*, cantos arredondados de 8px a 12px e microinterações polidas).
+
+O Salon Manager adota o padrão estético **SaaS Boutique Contemporâneo** (Vinho Nobre `#7B3F61`, Champagne Dourado `#C59B6D`, superfícies elegantes, tipografia _Plus Jakarta Sans_, cantos arredondados de 8px a 12px e microinterações polidas).
+
 - **Consistência Visual de Ícones:** A biblioteca oficial exclusiva de ícones do projeto é **Lucide Icons** (`lucide-vue-next`). Não é permitido misturar aleatoriamente classes de Material Icons ou FontAwesome em novos desenvolvimentos visuais.
 - **Quatro Estados de Interface Obrigatórios (NON-NEGOTIABLE):** Qualquer tela, tabela, modal ou seção que consuma dados assíncronos MUST implementar:
   1. **Loading State:** Feedback visual nítido durante o trânsito da requisição (`AppLoading`, spinners ou `q-skeleton`).
@@ -58,7 +64,9 @@ O Salon Manager adota o padrão estético **SaaS Boutique Contemporâneo** (Vinh
 - **Suporte Nativo a Temas (Light / Dark):** Toda nova página ou componente MUST testar e suportar alternância perfeita entre tema claro e escuro, respeitando as variáveis semânticas do Quasar e as classes `body--dark`.
 
 ### IV. Gerenciamento de Estado Previsível com Pinia e Blindagem de Segurança
+
 O estado global da aplicação deve ser previsível, coeso e blindado contra vulnerabilidades de segurança e inconsistências operacionais.
+
 - O Pinia MUST ser reservado exclusivamente para estados globais que transcendem a vida útil de uma página individual (ex: sessão autenticada, permissões do usuário e preferências visuais). Estados específicos de telas, formulários ou paginação MUST residir em `ref`/`reactive` ou composables locais.
 - Stores MUST possuir responsabilidade única: é proibido misturar controle de tema visual com controle de gavetas ou menus de layout em uma mesma store.
 - **Segurança de Acesso e Credenciais:**
@@ -68,7 +76,9 @@ O estado global da aplicação deve ser previsível, coeso e blindado contra vul
 - **Tratamento de Datas e Fusos:** O frontend MUST manipular datas e horários respeitando rigorosamente o fuso horário local da operação do salão, evitando conversões precipitadas ou inserção arbitrária de sufixos `Z` (UTC) que desloquem compromissos em fusos negativos (ex: horário de Brasília UTC-3).
 
 ### V. Qualidade de Código, Validação e Gates de Testabilidade
+
 Todo código adicionado ou mantido no repositório MUST seguir rigorosos padrões de legibilidade, tipagem estrita e verificação contínua.
+
 - **Tipagem Estrita com TypeScript:** O projeto opera com checagem estrita (`strict: true`). O uso de `any` ou type-casting inseguro (`as unknown as ...`) é estritamente desencorajado e exige justificativa documentada.
 - **Validação de Formulários:** Todo formulário de entrada MUST validar campos obrigatórios, formatos (CPF, telefone, e-mail, moeda) e limites antes da submissão à API, exibindo mensagens de validação claras em português (pt-BR).
 - **Eliminação de Código Duplicado:** Padrões recorrentes de interface (tabelas com paginação e busca, confirmações de deleção/ativação, formatação de dados) MUST ser abstraídos em composables compartilhados (`useFormatters`, `usePagination`, etc.), evitando a repetição de lógica idêntica entre múltiplos módulos.

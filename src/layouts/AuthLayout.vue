@@ -17,8 +17,9 @@
 <style scoped lang="scss">
 .auth-layout {
   min-height: 100vh;
-  background: radial-gradient(circle at 10% 20%, rgba(123, 63, 97, 0.08) 0%, transparent 40%),
-              radial-gradient(circle at 90% 80%, rgba(197, 155, 109, 0.08) 0%, transparent 40%);
+  background:
+    radial-gradient(circle at 10% 20%, rgba(123, 63, 97, 0.08) 0%, transparent 40%),
+    radial-gradient(circle at 90% 80%, rgba(197, 155, 109, 0.08) 0%, transparent 40%);
 }
 
 .auth-card-wrapper {

@@ -1,5 +1,9 @@
 <template>
-  <q-dialog :model-value="modelValue" @update:model-value="$emit('update:modelValue', $event)" persistent>
+  <q-dialog
+    :model-value="modelValue"
+    @update:model-value="$emit('update:modelValue', $event)"
+    persistent
+  >
     <q-card style="min-width: 380px; max-width: 460px">
       <q-card-section class="row items-center q-pb-none">
         <div class="confirm-icon-wrap q-mr-md" :class="`bg-${color}-1 text-${color}`">
@@ -51,7 +55,7 @@ withDefaults(
     cancelLabel: 'Cancelar',
     color: 'negative',
     loading: false,
-  }
+  },
 );
 
 defineEmits<{

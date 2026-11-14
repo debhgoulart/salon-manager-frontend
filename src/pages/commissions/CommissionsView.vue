@@ -4,7 +4,9 @@
     <div class="row items-center justify-between q-mb-md">
       <div>
         <h1 class="text-h5 text-weight-bold q-my-none">Extrato de Comissões</h1>
-        <p class="text-caption text-grey-7 q-mb-none">Acompanhamento e apuração de repasses por profissional</p>
+        <p class="text-caption text-grey-7 q-mb-none">
+          Acompanhamento e apuração de repasses por profissional
+        </p>
       </div>
     </div>
 
@@ -187,7 +189,11 @@ import { ref, reactive, onMounted, computed } from 'vue';
 import type { QTableProps } from 'quasar';
 import commissionService from 'src/services/commissionService';
 import employeeService from 'src/services/employeeService';
-import type { CommissionResponse, CommissionSummaryResponse, CommissionStatus } from 'src/types/commission';
+import type {
+  CommissionResponse,
+  CommissionSummaryResponse,
+  CommissionStatus,
+} from 'src/types/commission';
 import type { EmployeeResponse } from 'src/types/employee';
 import { useFormatters } from 'src/composables/useFormatters';
 import { useFeedback } from 'src/composables/useFeedback';
@@ -225,11 +231,23 @@ const pagination = ref({
 
 const columns: QTableProps['columns'] = [
   { name: 'createdAt', label: 'Data/Hora', field: 'createdAt', align: 'left', sortable: true },
-  { name: 'employeeName', label: 'Profissional', field: 'employeeName', align: 'left', sortable: true },
+  {
+    name: 'employeeName',
+    label: 'Profissional',
+    field: 'employeeName',
+    align: 'left',
+    sortable: true,
+  },
   { name: 'serviceName', label: 'Serviço Realizado', field: 'serviceName', align: 'left' },
   { name: 'serviceAmount', label: 'Valor do Serviço', field: 'serviceAmount', align: 'right' },
   { name: 'appliedRate', label: 'Taxa Aplicada', field: 'appliedRate', align: 'center' },
-  { name: 'commissionAmount', label: 'Comissão', field: 'commissionAmount', align: 'right', sortable: true },
+  {
+    name: 'commissionAmount',
+    label: 'Comissão',
+    field: 'commissionAmount',
+    align: 'right',
+    sortable: true,
+  },
   { name: 'status', label: 'Status', field: 'status', align: 'center' },
 ];
 
@@ -254,7 +272,7 @@ async function loadSummary() {
   try {
     const s = await commissionService.getSummary(
       startDate.value ? `${startDate.value}T00:00:00Z` : undefined,
-      endDate.value ? `${endDate.value}T23:59:59Z` : undefined
+      endDate.value ? `${endDate.value}T23:59:59Z` : undefined,
     );
     summary.totalCommission = s.totalCommission;
     summary.pendingAmount = s.pendingAmount;

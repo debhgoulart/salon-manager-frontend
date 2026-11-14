@@ -2,7 +2,7 @@
   <div class="fullscreen bg-primary text-white text-center q-pa-md flex flex-center">
     <div>
       <div style="font-size: 15vh" class="text-weight-bold">404</div>
-      <div class="text-h4 text-weight-medium" style="opacity:.6">Página não encontrada</div>
+      <div class="text-h4 text-weight-medium" style="opacity: 0.6">Página não encontrada</div>
       <q-btn
         class="q-mt-xl"
         color="white"

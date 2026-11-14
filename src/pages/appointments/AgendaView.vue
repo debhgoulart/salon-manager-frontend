@@ -4,7 +4,9 @@
     <div class="row items-center justify-between q-mb-md">
       <div>
         <h1 class="text-h5 text-weight-bold q-my-none">Agenda de Atendimentos</h1>
-        <p class="text-caption text-grey-7 q-mb-none">Visualização diária/semanal e controle de horários</p>
+        <p class="text-caption text-grey-7 q-mb-none">
+          Visualização diária/semanal e controle de horários
+        </p>
       </div>
 
       <div class="row items-center q-gutter-sm">
@@ -41,13 +43,7 @@
         />
 
         <!-- Botão Novo Agendamento -->
-        <q-btn
-          unelevated
-          color="primary"
-          no-caps
-          class="q-px-md"
-          @click="openCreateDialog()"
-        >
+        <q-btn unelevated color="primary" no-caps class="q-px-md" @click="openCreateDialog()">
           <Plus :size="18" class="q-mr-xs" />
           Novo Agendamento
         </q-btn>
@@ -62,11 +58,24 @@
             <ChevronLeft :size="18" />
           </q-btn>
 
-          <q-btn flat no-caps dense class="text-weight-bold text-subtitle1 q-px-sm" @click="datePopup = true">
+          <q-btn
+            flat
+            no-caps
+            dense
+            class="text-weight-bold text-subtitle1 q-px-sm"
+            @click="datePopup = true"
+          >
             <Calendar :size="16" class="q-mr-xs text-primary" />
             {{ currentDateDisplay }}
             <q-popup-proxy v-model="datePopup" transition-show="scale" transition-hide="scale">
-              <q-date v-model="selectedDateStr" mask="YYYY-MM-DD" @update:model-value="datePopup = false; loadAppointments()" />
+              <q-date
+                v-model="selectedDateStr"
+                mask="YYYY-MM-DD"
+                @update:model-value="
+                  datePopup = false;
+                  loadAppointments();
+                "
+              />
             </q-popup-proxy>
           </q-btn>
 
@@ -81,11 +90,21 @@
 
         <!-- Legenda rápida de status -->
         <div class="row items-center q-gutter-x-sm gt-xs text-caption">
-          <span class="flex items-center"><span class="legend-dot bg-info q-mr-xs"></span>Agendado</span>
-          <span class="flex items-center"><span class="legend-dot bg-primary q-mr-xs"></span>Confirmado</span>
-          <span class="flex items-center"><span class="legend-dot bg-warning q-mr-xs"></span>Em Atendimento</span>
-          <span class="flex items-center"><span class="legend-dot bg-positive q-mr-xs"></span>Concluído</span>
-          <span class="flex items-center"><span class="legend-dot bg-negative q-mr-xs"></span>Cancelado</span>
+          <span class="flex items-center"
+            ><span class="legend-dot bg-info q-mr-xs"></span>Agendado</span
+          >
+          <span class="flex items-center"
+            ><span class="legend-dot bg-primary q-mr-xs"></span>Confirmado</span
+          >
+          <span class="flex items-center"
+            ><span class="legend-dot bg-warning q-mr-xs"></span>Em Atendimento</span
+          >
+          <span class="flex items-center"
+            ><span class="legend-dot bg-positive q-mr-xs"></span>Concluído</span
+          >
+          <span class="flex items-center"
+            ><span class="legend-dot bg-negative q-mr-xs"></span>Cancelado</span
+          >
         </div>
       </div>
     </q-card>
@@ -119,7 +138,8 @@
                   <AppStatusBadge :status="app.status" />
                 </div>
                 <div class="text-caption text-grey-8 ellipsis">
-                  {{ app.serviceName }} • <span class="text-weight-medium">{{ app.employeeName }}</span>
+                  {{ app.serviceName }} •
+                  <span class="text-weight-medium">{{ app.employeeName }}</span>
                 </div>
                 <div class="row items-center justify-between text-caption text-grey-7 q-mt-xs">
                   <span>{{ formatTimeRange(app.startTime, app.endTime) }}</span>
@@ -290,7 +310,9 @@
       <q-card style="min-width: 400px; max-width: 500px">
         <q-card-section class="row items-center justify-between border-bottom q-py-md">
           <div>
-            <div class="text-subtitle1 text-weight-bold">{{ selectedAppointment?.serviceName }}</div>
+            <div class="text-subtitle1 text-weight-bold">
+              {{ selectedAppointment?.serviceName }}
+            </div>
             <div class="text-caption text-grey-6">{{ selectedAppointment?.clientName }}</div>
           </div>
           <AppStatusBadge :status="selectedAppointment?.status" />
@@ -298,15 +320,25 @@
 
         <q-card-section class="q-py-md">
           <div class="text-body2 text-grey-8 q-mb-sm">
-            Profissional: <span class="text-weight-bold">{{ selectedAppointment?.employeeName }}</span>
+            Profissional:
+            <span class="text-weight-bold">{{ selectedAppointment?.employeeName }}</span>
           </div>
           <div class="text-body2 text-grey-8 q-mb-sm">
-            Horário: <span class="text-weight-bold">{{ formatTimeRange(selectedAppointment?.startTime, selectedAppointment?.endTime) }}</span>
+            Horário:
+            <span class="text-weight-bold">{{
+              formatTimeRange(selectedAppointment?.startTime, selectedAppointment?.endTime)
+            }}</span>
           </div>
           <div class="text-body2 text-grey-8 q-mb-md">
-            Valor do Serviço: <span class="text-weight-bold text-primary">{{ formatCurrency(selectedAppointment?.price) }}</span>
+            Valor do Serviço:
+            <span class="text-weight-bold text-primary">{{
+              formatCurrency(selectedAppointment?.price)
+            }}</span>
           </div>
-          <div v-if="selectedAppointment?.notes" class="text-caption text-grey-6 bg-grey-2 q-pa-sm rounded-borders">
+          <div
+            v-if="selectedAppointment?.notes"
+            class="text-caption text-grey-6 bg-grey-2 q-pa-sm rounded-borders"
+          >
             Observações: {{ selectedAppointment.notes }}
           </div>
         </q-card-section>
@@ -378,7 +410,12 @@ import appointmentService from 'src/services/appointmentService';
 import employeeService from 'src/services/employeeService';
 import clientService from 'src/services/clientService';
 import serviceService from 'src/services/serviceService';
-import type { AppointmentResponse, AppointmentStatus, AppointmentCreateRequest, TimeSlot } from 'src/types/appointment';
+import type {
+  AppointmentResponse,
+  AppointmentStatus,
+  AppointmentCreateRequest,
+  TimeSlot,
+} from 'src/types/appointment';
 import type { EmployeeResponse } from 'src/types/employee';
 import type { ClientResponse } from 'src/types/client';
 import type { ServiceResponse } from 'src/types/service';
@@ -386,9 +423,18 @@ import { useFormatters } from 'src/composables/useFormatters';
 import { useFeedback } from 'src/composables/useFeedback';
 import AppStatusBadge from 'src/components/common/AppStatusBadge.vue';
 import AppFormDialog from 'src/components/dialogs/AppFormDialog.vue';
-import { Plus, Calendar, ChevronLeft, ChevronRight, User, UserCheck, Scissors, Clock } from 'lucide-vue-next';
+import {
+  Plus,
+  Calendar,
+  ChevronLeft,
+  ChevronRight,
+  User,
+  UserCheck,
+  Scissors,
+  Clock,
+} from 'lucide-vue-next';
 
-const { formatCurrency } = useFormatters();
+const { formatCurrency, toUtcIsoString } = useFormatters();
 const { notifySuccess, handleApiError } = useFeedback();
 
 const loading = ref(false);
@@ -450,10 +496,12 @@ const employeeFormOptions = computed(() => {
 });
 
 const serviceOptions = computed(() => {
-  return services.value.filter((s) => s.active).map((s) => ({
-    label: `${s.name} — ${formatCurrency(s.price)} (${s.durationMinutes} min)`,
-    value: s.id,
-  }));
+  return services.value
+    .filter((s) => s.active)
+    .map((s) => ({
+      label: `${s.name} — ${formatCurrency(s.price)} (${s.durationMinutes} min)`,
+      value: s.id,
+    }));
 });
 
 const clientOptions = ref<Array<{ label: string; value: string }>>([]);
@@ -517,7 +565,10 @@ async function loadDependencies() {
     employees.value = empRes.content;
     services.value = servRes.content;
     clients.value = cliRes.content;
-    clientOptions.value = cliRes.content.map((c) => ({ label: `${c.name} (${c.phone})`, value: c.id }));
+    clientOptions.value = cliRes.content.map((c) => ({
+      label: `${c.name} (${c.phone})`,
+      value: c.id,
+    }));
   } catch {
     // Silencia erros de dependência caso o backend esteja sem seed
   }
@@ -526,7 +577,10 @@ async function loadDependencies() {
 function filterClients(val: string, update: (cb: () => void) => void) {
   if (!val) {
     update(() => {
-      clientOptions.value = clients.value.map((c) => ({ label: `${c.name} (${c.phone})`, value: c.id }));
+      clientOptions.value = clients.value.map((c) => ({
+        label: `${c.name} (${c.phone})`,
+        value: c.id,
+      }));
     });
     return;
   }
@@ -542,7 +596,11 @@ async function fetchAvailableSlots() {
   if (!form.employeeId || !form.serviceId || !form.date) return;
   loadingSlots.value = true;
   try {
-    const slots = await appointmentService.getAvailableSlots(form.employeeId, form.date, form.serviceId);
+    const slots = await appointmentService.getAvailableSlots(
+      form.employeeId,
+      form.date,
+      form.serviceId,
+    );
     availableSlots.value = slots;
   } catch {
     availableSlots.value = [];
@@ -620,7 +678,7 @@ function openCreateDialog(defaultDate?: string, defaultTime?: string) {
 async function handleCreateAppointment() {
   saving.value = true;
   try {
-    const isoStartTime = `${form.date}T${form.time}:00Z`;
+    const isoStartTime = toUtcIsoString(form.date, form.time);
     const payload: AppointmentCreateRequest = {
       clientId: form.clientId,
       employeeId: form.employeeId,
@@ -675,11 +733,11 @@ onMounted(() => {
 
 .date-nav-card {
   border-radius: 10px;
-  background: #FFFFFF;
+  background: #ffffff;
 }
 
 body.body--dark .date-nav-card {
-  background: #15171C;
+  background: #15171c;
 }
 
 .legend-dot {
@@ -692,11 +750,11 @@ body.body--dark .date-nav-card {
 .schedule-grid-card {
   border-radius: 12px;
   overflow: hidden;
-  background: #FFFFFF;
+  background: #ffffff;
 }
 
 body.body--dark .schedule-grid-card {
-  background: #15171C;
+  background: #15171c;
 }
 
 .time-row {
@@ -718,14 +776,14 @@ body.body--dark .time-row {
   padding: 12px;
   font-size: 0.85rem;
   font-weight: 600;
-  color: #6C757D;
+  color: #6c757d;
   border-right: 1px solid rgba(0, 0, 0, 0.05);
   background: rgba(0, 0, 0, 0.01);
 }
 
 body.body--dark .time-label {
   border-right-color: rgba(255, 255, 255, 0.05);
-  color: #ADB5BD;
+  color: #adb5bd;
 }
 
 .time-slot-area {
@@ -742,26 +800,41 @@ body.body--dark .time-label {
   min-width: 240px;
   padding: 8px 12px;
   border-radius: 8px;
-  background: #FFFFFF;
-  border-left: 4px solid #7B3F61;
+  background: #ffffff;
+  border-left: 4px solid #7b3f61;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
 
   &:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
   }
 
-  &.status-agendado { border-left-color: #457B9D; }
-  &.status-confirmado { border-left-color: #7B3F61; }
-  &.status-em_atendimento { border-left-color: #E9C46A; }
-  &.status-concluido { border-left-color: #2A9D8F; }
-  &.status-cancelado { border-left-color: #E76F51; opacity: 0.7; }
-  &.status-nao_compareceu { border-left-color: #673AB7; }
+  &.status-agendado {
+    border-left-color: #457b9d;
+  }
+  &.status-confirmado {
+    border-left-color: #7b3f61;
+  }
+  &.status-em_atendimento {
+    border-left-color: #e9c46a;
+  }
+  &.status-concluido {
+    border-left-color: #2a9d8f;
+  }
+  &.status-cancelado {
+    border-left-color: #e76f51;
+    opacity: 0.7;
+  }
+  &.status-nao_compareceu {
+    border-left-color: #673ab7;
+  }
 }
 
 body.body--dark .appointment-card {
-  background: #1E2129;
+  background: #1e2129;
 }
 
 .week-header-row {
@@ -787,7 +860,7 @@ body.body--dark .week-header-row {
 
   &.is-today {
     background: rgba(123, 63, 97, 0.08);
-    color: #7B3F61;
+    color: #7b3f61;
   }
 }
 
@@ -801,7 +874,7 @@ body.body--dark .week-header-row {
   width: 60px;
   padding: 8px;
   font-size: 0.75rem;
-  color: #6C757D;
+  color: #6c757d;
   text-align: center;
 }
 
@@ -822,13 +895,13 @@ body.body--dark .week-header-row {
 .appointment-mini-card {
   padding: 4px 6px;
   border-radius: 6px;
-  background: #FFFFFF;
-  border-left: 3px solid #7B3F61;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+  background: #ffffff;
+  border-left: 3px solid #7b3f61;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
   font-size: 0.75rem;
 }
 
 body.body--dark .appointment-mini-card {
-  background: #1E2129;
+  background: #1e2129;
 }
 </style>

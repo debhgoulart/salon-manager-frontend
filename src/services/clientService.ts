@@ -4,7 +4,11 @@ import type { AppointmentResponse } from 'src/types/appointment';
 import type { PageResponse } from 'src/types/api';
 
 export const clientService = {
-  async list(params?: { query?: string | undefined; page?: number | undefined; size?: number | undefined }): Promise<PageResponse<ClientResponse>> {
+  async list(params?: {
+    query?: string | undefined;
+    page?: number | undefined;
+    size?: number | undefined;
+  }): Promise<PageResponse<ClientResponse>> {
     const { data } = await apiClient.get<PageResponse<ClientResponse>>('/api/v1/clients', {
       params: {
         query: params?.query || undefined,
@@ -39,10 +43,17 @@ export const clientService = {
     return data;
   },
 
-  async getAppointments(clientId: string, page = 0, size = 10): Promise<PageResponse<AppointmentResponse>> {
-    const { data } = await apiClient.get<PageResponse<AppointmentResponse>>(`/api/v1/clients/${clientId}/appointments`, {
-      params: { page, size },
-    });
+  async getAppointments(
+    clientId: string,
+    page = 0,
+    size = 10,
+  ): Promise<PageResponse<AppointmentResponse>> {
+    const { data } = await apiClient.get<PageResponse<AppointmentResponse>>(
+      `/api/v1/clients/${clientId}/appointments`,
+      {
+        params: { page, size },
+      },
+    );
     return data;
   },
 };

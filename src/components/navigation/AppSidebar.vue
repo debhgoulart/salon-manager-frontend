@@ -92,12 +92,37 @@ const themeStore = useThemeStore();
 const menuItems: MenuItem[] = [
   { title: 'Dashboard', path: '/', icon: LayoutDashboard },
   { title: 'Agenda', path: '/agenda', icon: Calendar },
-  { title: 'Clientes', path: '/clientes', icon: Users, roles: ['ROLE_ADMIN', 'ROLE_MANAGER', 'ROLE_RECEPTIONIST'] },
-  { title: 'Funcionários', path: '/funcionarios', icon: UserCheck, roles: ['ROLE_ADMIN', 'ROLE_MANAGER'] },
+  {
+    title: 'Clientes',
+    path: '/clientes',
+    icon: Users,
+    roles: ['ROLE_ADMIN', 'ROLE_MANAGER', 'ROLE_RECEPTIONIST'],
+  },
+  {
+    title: 'Funcionários',
+    path: '/funcionarios',
+    icon: UserCheck,
+    roles: ['ROLE_ADMIN', 'ROLE_MANAGER'],
+  },
   { title: 'Serviços', path: '/servicos', icon: Scissors, roles: ['ROLE_ADMIN', 'ROLE_MANAGER'] },
-  { title: 'Financeiro', path: '/financeiro', icon: DollarSign, roles: ['ROLE_ADMIN', 'ROLE_MANAGER'] },
-  { title: 'Comissões', path: '/comissoes', icon: Award, roles: ['ROLE_ADMIN', 'ROLE_MANAGER', 'ROLE_PROFESSIONAL'] },
-  { title: 'Fechamento Mensal', path: '/fechamento', icon: FileSpreadsheet, roles: ['ROLE_ADMIN', 'ROLE_MANAGER'] },
+  {
+    title: 'Financeiro',
+    path: '/financeiro',
+    icon: DollarSign,
+    roles: ['ROLE_ADMIN', 'ROLE_MANAGER'],
+  },
+  {
+    title: 'Comissões',
+    path: '/comissoes',
+    icon: Award,
+    roles: ['ROLE_ADMIN', 'ROLE_MANAGER', 'ROLE_PROFESSIONAL'],
+  },
+  {
+    title: 'Fechamento Mensal',
+    path: '/fechamento',
+    icon: FileSpreadsheet,
+    roles: ['ROLE_ADMIN', 'ROLE_MANAGER'],
+  },
   { title: 'Configurações', path: '/configuracoes', icon: Settings },
 ];
 
@@ -111,18 +136,18 @@ const visibleMenuItems = computed(() => {
 
 <style scoped lang="scss">
 .app-sidebar {
-  background: #FFFFFF;
+  background: #ffffff;
 }
 
 body.body--dark .app-sidebar {
-  background: #15171C;
+  background: #15171c;
 }
 
 .brand-mini-logo {
   width: 36px;
   height: 36px;
   border-radius: 10px;
-  background: linear-gradient(135deg, #7B3F61 0%, #C59B6D 100%);
+  background: linear-gradient(135deg, #7b3f61 0%, #c59b6d 100%);
   color: #fff;
   font-weight: 700;
   font-size: 0.95rem;
@@ -139,30 +164,34 @@ body.body--dark .app-sidebar {
 
   &:hover {
     background: rgba(123, 63, 97, 0.05);
-    color: #7B3F61;
+    color: #7b3f61;
   }
 }
 
 body.body--dark .menu-item {
-  color: #ADB5BD;
+  color: #adb5bd;
 
   &:hover {
     background: rgba(255, 255, 255, 0.05);
-    color: #F1F3F5;
+    color: #f1f3f5;
   }
 }
 
 .active-menu-item {
-  background: linear-gradient(90deg, rgba(123, 63, 97, 0.12) 0%, rgba(197, 155, 109, 0.08) 100%) !important;
-  color: #7B3F61 !important;
+  background: linear-gradient(
+    90deg,
+    rgba(123, 63, 97, 0.12) 0%,
+    rgba(197, 155, 109, 0.08) 100%
+  ) !important;
+  color: #7b3f61 !important;
   font-weight: 600;
-  border-left: 3px solid #7B3F61;
+  border-left: 3px solid #7b3f61;
 }
 
 body.body--dark .active-menu-item {
   background: rgba(123, 63, 97, 0.25) !important;
-  color: #C59B6D !important;
-  border-left-color: #C59B6D;
+  color: #c59b6d !important;
+  border-left-color: #c59b6d;
 }
 
 .item-icon-section {

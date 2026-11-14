@@ -3,7 +3,11 @@ import type { EmployeeRequest, EmployeeResponse } from 'src/types/employee';
 import type { PageResponse } from 'src/types/api';
 
 export const employeeService = {
-  async list(params?: { active?: boolean | undefined; page?: number | undefined; size?: number | undefined }): Promise<PageResponse<EmployeeResponse>> {
+  async list(params?: {
+    active?: boolean | undefined;
+    page?: number | undefined;
+    size?: number | undefined;
+  }): Promise<PageResponse<EmployeeResponse>> {
     const { data } = await apiClient.get<PageResponse<EmployeeResponse>>('/api/v1/employees', {
       params: {
         active: params?.active,

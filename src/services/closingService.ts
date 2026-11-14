@@ -33,12 +33,18 @@ export const closingService = {
   },
 
   async close(payload: MonthlyClosingRequest): Promise<MonthlyClosingResponse> {
-    const { data } = await apiClient.post<MonthlyClosingResponse>('/api/v1/closings/close', payload);
+    const { data } = await apiClient.post<MonthlyClosingResponse>(
+      '/api/v1/closings/close',
+      payload,
+    );
     return data;
   },
 
   async reopen(id: string, payload: MonthlyClosingReopenRequest): Promise<MonthlyClosingResponse> {
-    const { data } = await apiClient.post<MonthlyClosingResponse>(`/api/v1/closings/${id}/reopen`, payload);
+    const { data } = await apiClient.post<MonthlyClosingResponse>(
+      `/api/v1/closings/${id}/reopen`,
+      payload,
+    );
     return data;
   },
 };

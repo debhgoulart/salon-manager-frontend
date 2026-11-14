@@ -30,9 +30,10 @@ withDefaults(
   }>(),
   {
     title: 'Falha ao carregar dados',
-    description: 'Não foi possível se comunicar com o servidor. Verifique a conexão e tente novamente.',
+    description:
+      'Não foi possível se comunicar com o servidor. Verifique a conexão e tente novamente.',
     showRetry: true,
-  }
+  },
 );
 
 defineEmits<{

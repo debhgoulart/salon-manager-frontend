@@ -4,7 +4,9 @@
     <div class="row items-center justify-between q-mb-md">
       <div>
         <h1 class="text-h5 text-weight-bold q-my-none">Fechamento Contábil Mensal</h1>
-        <p class="text-caption text-grey-7 q-mb-none">Consolidação atômica de receitas, despesas e comissões com trava de segurança</p>
+        <p class="text-caption text-grey-7 q-mb-none">
+          Consolidação atômica de receitas, despesas e comissões com trava de segurança
+        </p>
       </div>
     </div>
 
@@ -75,7 +77,8 @@
     <div v-if="previewStatement" class="q-mb-xl">
       <div class="text-subtitle1 text-weight-bold q-mb-md flex items-center">
         <FileSpreadsheet :size="20" class="q-mr-xs text-primary" />
-        Demonstrativo Consolidado — {{ getMonthName(previewStatement.month) }} / {{ previewStatement.year }}
+        Demonstrativo Consolidado — {{ getMonthName(previewStatement.month) }} /
+        {{ previewStatement.year }}
       </div>
 
       <!-- 4 Cards de Totais -->
@@ -188,7 +191,11 @@
 
           <!-- Lucro Líquido -->
           <template #body-cell-netProfit="props">
-            <q-td :props="props" class="text-weight-bold" :class="props.row.netProfit >= 0 ? 'text-positive' : 'text-negative'">
+            <q-td
+              :props="props"
+              class="text-weight-bold"
+              :class="props.row.netProfit >= 0 ? 'text-positive' : 'text-negative'"
+            >
               {{ formatCurrency(props.row.netProfit) }}
             </q-td>
           </template>
@@ -271,7 +278,8 @@
     >
       <div class="q-gutter-y-md">
         <q-banner dense rounded class="bg-orange-1 text-orange-9">
-          A reabertura de períodos encerrados será registrada no log de auditoria com a identificação do usuário logado.
+          A reabertura de períodos encerrados será registrada no log de auditoria com a
+          identificação do usuário logado.
         </q-banner>
 
         <q-input
@@ -293,7 +301,11 @@
 import { ref, onMounted } from 'vue';
 import type { QTableProps } from 'quasar';
 import closingService from 'src/services/closingService';
-import type { MonthlyClosingResponse, MonthlyClosingRequest, MonthlyClosingReopenRequest } from 'src/types/closing';
+import type {
+  MonthlyClosingResponse,
+  MonthlyClosingRequest,
+  MonthlyClosingReopenRequest,
+} from 'src/types/closing';
 import { useFormatters } from 'src/composables/useFormatters';
 import { useFeedback } from 'src/composables/useFeedback';
 import AppStatCard from 'src/components/widgets/AppStatCard.vue';
@@ -359,8 +371,18 @@ const yearOptions = [
 const itemColumns: QTableProps['columns'] = [
   { name: 'employeeName', label: 'Profissional', field: 'employeeName', align: 'left' },
   { name: 'appointmentsCount', label: 'Atendimentos', field: 'appointmentsCount', align: 'center' },
-  { name: 'totalServiceValue', label: 'Faturamento Gerado', field: 'totalServiceValue', align: 'right' },
-  { name: 'totalCommission', label: 'Comissão Calculada', field: 'totalCommission', align: 'right' },
+  {
+    name: 'totalServiceValue',
+    label: 'Faturamento Gerado',
+    field: 'totalServiceValue',
+    align: 'right',
+  },
+  {
+    name: 'totalCommission',
+    label: 'Comissão Calculada',
+    field: 'totalCommission',
+    align: 'right',
+  },
 ];
 
 const historyColumns: QTableProps['columns'] = [
@@ -467,10 +489,10 @@ onMounted(() => {
 <style scoped>
 .closing-control-card {
   border-radius: 12px;
-  background: #FFFFFF;
+  background: #ffffff;
 }
 body.body--dark .closing-control-card {
-  background: #15171C;
+  background: #15171c;
 }
 .border-bottom {
   border-bottom: 1px solid rgba(0, 0, 0, 0.08);

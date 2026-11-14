@@ -28,7 +28,7 @@ const props = withDefaults(
     modelValue: '',
     placeholder: 'Buscar...',
     debounce: 350,
-  }
+  },
 );
 
 const emit = defineEmits<{
@@ -43,7 +43,7 @@ watch(
   () => props.modelValue,
   (newVal) => {
     internalValue.value = newVal;
-  }
+  },
 );
 
 function handleInput(val: string | number | null) {

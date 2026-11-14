@@ -38,7 +38,7 @@ apiClient.interceptors.request.use(
     }
     return config;
   },
-  (error: unknown) => Promise.reject(error instanceof Error ? error : new Error(String(error)))
+  (error: unknown) => Promise.reject(error instanceof Error ? error : new Error(String(error))),
 );
 
 apiClient.interceptors.response.use(
@@ -53,7 +53,9 @@ apiClient.interceptors.response.use(
           failedQueue.push({ resolve, reject });
         })
           .then(() => apiClient(originalRequest))
-          .catch((err: unknown) => Promise.reject(err instanceof Error ? err : new Error(String(err))));
+          .catch((err: unknown) =>
+            Promise.reject(err instanceof Error ? err : new Error(String(err))),
+          );
       }
 
       originalRequest._retry = true;
@@ -74,14 +76,16 @@ apiClient.interceptors.response.use(
       } catch (refreshErr: unknown) {
         processQueue(refreshErr);
         authStore.logout();
-        return Promise.reject(refreshErr instanceof Error ? refreshErr : new Error(String(refreshErr)));
+        return Promise.reject(
+          refreshErr instanceof Error ? refreshErr : new Error(String(refreshErr)),
+        );
       } finally {
         isRefreshing = false;
       }
     }
 
     return Promise.reject(error);
-  }
+  },
 );
 
 export default apiClient;

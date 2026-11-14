@@ -4,17 +4,13 @@
     <div class="row items-center justify-between q-mb-md">
       <div>
         <h1 class="text-h5 text-weight-bold q-my-none">Fluxo Financeiro</h1>
-        <p class="text-caption text-grey-7 q-mb-none">Controle de receitas, despesas operacionais e resultado líquido</p>
+        <p class="text-caption text-grey-7 q-mb-none">
+          Controle de receitas, despesas operacionais e resultado líquido
+        </p>
       </div>
 
       <div class="row items-center q-gutter-sm">
-        <q-btn
-          unelevated
-          color="primary"
-          no-caps
-          class="q-px-md"
-          @click="openCreateDialog"
-        >
+        <q-btn unelevated color="primary" no-caps class="q-px-md" @click="openCreateDialog">
           <Plus :size="18" class="q-mr-xs" />
           Novo Lançamento
         </q-btn>
@@ -144,7 +140,11 @@
 
         <!-- Valor -->
         <template #body-cell-amount="props">
-          <q-td :props="props" class="text-weight-bold" :class="props.row.type === 'INCOME' ? 'text-positive' : 'text-negative'">
+          <q-td
+            :props="props"
+            class="text-weight-bold"
+            :class="props.row.type === 'INCOME' ? 'text-positive' : 'text-negative'"
+          >
             {{ props.row.type === 'INCOME' ? '+' : '-' }} {{ formatCurrency(props.row.amount) }}
           </q-td>
         </template>
@@ -163,7 +163,13 @@
             description="Não foram encontrados registros financeiros para os filtros selecionados."
           >
             <template #action>
-              <q-btn unelevated color="primary" no-caps label="Novo Lançamento" @click="openCreateDialog" />
+              <q-btn
+                unelevated
+                color="primary"
+                no-caps
+                label="Novo Lançamento"
+                @click="openCreateDialog"
+              />
             </template>
           </AppEmptyState>
         </template>
@@ -309,7 +315,13 @@ const pagination = ref({
 });
 
 const columns: QTableProps['columns'] = [
-  { name: 'transactionDate', label: 'Data', field: 'transactionDate', align: 'left', sortable: true },
+  {
+    name: 'transactionDate',
+    label: 'Data',
+    field: 'transactionDate',
+    align: 'left',
+    sortable: true,
+  },
   { name: 'type', label: 'Tipo', field: 'type', align: 'center' },
   { name: 'category', label: 'Categoria', field: 'category', align: 'left' },
   { name: 'description', label: 'Descrição', field: 'description', align: 'left' },
@@ -362,7 +374,7 @@ async function loadSummary() {
   try {
     const s = await financialService.getSummary(
       `${startDate.value}T00:00:00Z`,
-      `${endDate.value}T23:59:59Z`
+      `${endDate.value}T23:59:59Z`,
     );
     summary.totalRevenue = s.totalRevenue;
     summary.totalExpenses = s.totalExpenses;

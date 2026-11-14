@@ -1,5 +1,9 @@
 import apiClient from './api';
-import type { CommissionResponse, CommissionSummaryResponse, CommissionStatus } from 'src/types/commission';
+import type {
+  CommissionResponse,
+  CommissionSummaryResponse,
+  CommissionStatus,
+} from 'src/types/commission';
 import type { PageResponse } from 'src/types/api';
 
 export const commissionService = {

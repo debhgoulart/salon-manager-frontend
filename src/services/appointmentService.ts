@@ -33,8 +33,14 @@ export const appointmentService = {
     return data;
   },
 
-  async updateStatus(id: string, payload: AppointmentStatusUpdateRequest): Promise<AppointmentResponse> {
-    const { data } = await apiClient.patch<AppointmentResponse>(`/api/v1/appointments/${id}/status`, payload);
+  async updateStatus(
+    id: string,
+    payload: AppointmentStatusUpdateRequest,
+  ): Promise<AppointmentResponse> {
+    const { data } = await apiClient.patch<AppointmentResponse>(
+      `/api/v1/appointments/${id}/status`,
+      payload,
+    );
     return data;
   },
 
@@ -42,7 +48,11 @@ export const appointmentService = {
     await apiClient.delete(`/api/v1/appointments/${id}`);
   },
 
-  async getAvailableSlots(employeeId: string, date: string, serviceId: string): Promise<TimeSlot[]> {
+  async getAvailableSlots(
+    employeeId: string,
+    date: string,
+    serviceId: string,
+  ): Promise<TimeSlot[]> {
     const { data } = await apiClient.get<TimeSlot[]>('/api/v1/appointments/available-slots', {
       params: { employeeId, date, serviceId },
     });

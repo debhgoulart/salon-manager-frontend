@@ -4,7 +4,9 @@
     <div class="row items-center justify-between q-mb-md">
       <div>
         <h1 class="text-h5 text-weight-bold q-my-none">Funcionários</h1>
-        <p class="text-caption text-grey-7 q-mb-none">Profissionais, taxas contratuais de comissão e status</p>
+        <p class="text-caption text-grey-7 q-mb-none">
+          Profissionais, taxas contratuais de comissão e status
+        </p>
       </div>
 
       <div class="row items-center q-gutter-sm">
@@ -26,13 +28,7 @@
           @update:model-value="handleFilterChange"
         />
 
-        <q-btn
-          unelevated
-          color="primary"
-          no-caps
-          class="q-px-md"
-          @click="openCreateDialog"
-        >
+        <q-btn unelevated color="primary" no-caps class="q-px-md" @click="openCreateDialog">
           <Plus :size="18" class="q-mr-xs" />
           Novo Profissional
         </q-btn>
@@ -104,7 +100,9 @@
             >
               <UserX v-if="props.row.active" :size="16" />
               <UserCheck v-else :size="16" />
-              <q-tooltip>{{ props.row.active ? 'Desativar Profissional' : 'Reativar Profissional' }}</q-tooltip>
+              <q-tooltip>{{
+                props.row.active ? 'Desativar Profissional' : 'Reativar Profissional'
+              }}</q-tooltip>
             </q-btn>
           </q-td>
         </template>
@@ -116,7 +114,13 @@
             description="Cadastre profissionais para vincular a agendamentos e comissões."
           >
             <template #action>
-              <q-btn unelevated color="primary" no-caps label="Novo Profissional" @click="openCreateDialog" />
+              <q-btn
+                unelevated
+                color="primary"
+                no-caps
+                label="Novo Profissional"
+                @click="openCreateDialog"
+              />
             </template>
           </AppEmptyState>
         </template>
@@ -127,7 +131,9 @@
     <AppFormDialog
       v-model="dialogVisible"
       :title="isEditing ? 'Editar Profissional' : 'Cadastrar Novo Profissional'"
-      :subtitle="isEditing ? 'Atualize as informações contratuais' : 'Preencha os dados do colaborador'"
+      :subtitle="
+        isEditing ? 'Atualize as informações contratuais' : 'Preencha os dados do colaborador'
+      "
       :loading="saving"
       @submit="handleSave"
     >
@@ -189,7 +195,8 @@
               suffix="%"
               hint="Ex: 40% de repasse"
               :rules="[
-                (val) => val !== null && val !== undefined && val !== '' || 'A comissão é obrigatória',
+                (val) =>
+                  (val !== null && val !== undefined && val !== '') || 'A comissão é obrigatória',
                 (val) => (val >= 0 && val <= 100) || 'Taxa deve estar entre 0% e 100%',
               ]"
             />
@@ -202,9 +209,11 @@
     <AppConfirmDialog
       v-model="confirmDialogVisible"
       :title="selectedEmployee?.active ? 'Desativar Profissional?' : 'Ativar Profissional?'"
-      :message="selectedEmployee?.active
-        ? `Tem certeza que deseja desativar o profissional ${selectedEmployee?.name}? Ele não aparecerá para novos agendamentos.`
-        : `Deseja reativar o profissional ${selectedEmployee?.name}?`"
+      :message="
+        selectedEmployee?.active
+          ? `Tem certeza que deseja desativar o profissional ${selectedEmployee?.name}? Ele não aparecerá para novos agendamentos.`
+          : `Deseja reativar o profissional ${selectedEmployee?.name}?`
+      "
       :color="selectedEmployee?.active ? 'negative' : 'positive'"
       :confirm-label="selectedEmployee?.active ? 'Desativar' : 'Ativar'"
       :loading="toggling"
@@ -214,12 +223,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, reactive } from 'vue';
+import { ref, reactive } from 'vue';
 import type { QTableProps } from 'quasar';
 import employeeService from 'src/services/employeeService';
 import type { EmployeeResponse, EmployeeRequest } from 'src/types/employee';
 import { useFormatters } from 'src/composables/useFormatters';
 import { useFeedback } from 'src/composables/useFeedback';
+import { usePaginationTable } from 'src/composables/usePaginationTable';
 import AppStatusBadge from 'src/components/common/AppStatusBadge.vue';
 import AppEmptyState from 'src/components/common/AppEmptyState.vue';
 import AppFormDialog from 'src/components/dialogs/AppFormDialog.vue';
@@ -229,11 +239,9 @@ import { Plus, Edit2, UserX, UserCheck } from 'lucide-vue-next';
 const { formatPhone, formatCpf, formatPercent } = useFormatters();
 const { notifySuccess, handleApiError } = useFeedback();
 
-const loading = ref(false);
 const saving = ref(false);
 const toggling = ref(false);
 
-const employees = ref<EmployeeResponse[]>([]);
 const activeFilter = ref<boolean | null>(null);
 const selectedEmployee = ref<EmployeeResponse | null>(null);
 
@@ -241,18 +249,38 @@ const dialogVisible = ref(false);
 const isEditing = ref(false);
 const confirmDialogVisible = ref(false);
 
-const pagination = ref({
-  page: 1,
-  rowsPerPage: 10,
-  rowsNumber: 0,
+const {
+  items: employees,
+  loading,
+  pagination,
+  onRequest,
+  reload,
+} = usePaginationTable<EmployeeResponse>({
+  fetchFn: (params) =>
+    employeeService.list({
+      page: params.page,
+      size: params.size,
+      active: activeFilter.value !== null ? activeFilter.value : undefined,
+    }),
+  errorMessage: 'Falha ao carregar lista de profissionais.',
 });
+
+function handleFilterChange() {
+  pagination.value.page = 1;
+  void reload();
+}
 
 const columns: QTableProps['columns'] = [
   { name: 'name', label: 'Profissional', field: 'name', align: 'left', sortable: true },
   { name: 'phone', label: 'Telefone', field: 'phone', align: 'left' },
   { name: 'email', label: 'E-mail', field: 'email', align: 'left' },
   { name: 'cpf', label: 'CPF', field: 'cpf', align: 'left' },
-  { name: 'defaultCommissionRate', label: 'Comissão Padrão', field: 'defaultCommissionRate', align: 'center' },
+  {
+    name: 'defaultCommissionRate',
+    label: 'Comissão Padrão',
+    field: 'defaultCommissionRate',
+    align: 'center',
+  },
   { name: 'active', label: 'Status', field: 'active', align: 'center' },
   { name: 'actions', label: 'Ações', field: 'actions', align: 'right' },
 ];
@@ -264,34 +292,6 @@ const form = reactive<EmployeeRequest>({
   cpf: '',
   defaultCommissionRate: 40,
 });
-
-async function loadEmployees(page = 1, size = 10) {
-  loading.value = true;
-  try {
-    const res = await employeeService.list({
-      page: page - 1,
-      size,
-      active: activeFilter.value !== null ? activeFilter.value : undefined,
-    });
-    employees.value = res.content;
-    pagination.value.page = res.number + 1;
-    pagination.value.rowsPerPage = res.size;
-    pagination.value.rowsNumber = res.totalElements;
-  } catch (err) {
-    handleApiError(err, 'Falha ao carregar lista de profissionais.');
-  } finally {
-    loading.value = false;
-  }
-}
-
-function handleFilterChange() {
-  pagination.value.page = 1;
-  void loadEmployees(1, pagination.value.rowsPerPage);
-}
-
-function onRequest(props: { pagination: { page: number; rowsPerPage: number } }) {
-  void loadEmployees(props.pagination.page, props.pagination.rowsPerPage);
-}
 
 function openCreateDialog() {
   isEditing.value = false;
@@ -335,7 +335,7 @@ async function handleSave() {
     }
 
     dialogVisible.value = false;
-    await loadEmployees(pagination.value.page, pagination.value.rowsPerPage);
+    await reload();
   } catch (err) {
     handleApiError(err, 'Falha ao salvar dados do profissional.');
   } finally {
@@ -360,15 +360,11 @@ async function executeToggleActive() {
       notifySuccess('Profissional reativado com sucesso.');
     }
     confirmDialogVisible.value = false;
-    await loadEmployees(pagination.value.page, pagination.value.rowsPerPage);
+    await reload();
   } catch (err) {
     handleApiError(err, 'Erro ao alterar status do colaborador.');
   } finally {
     toggling.value = false;
   }
 }
-
-onMounted(() => {
-  void loadEmployees();
-});
 </script>

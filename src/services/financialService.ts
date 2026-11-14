@@ -18,22 +18,30 @@ export const financialService = {
     page?: number | undefined;
     size?: number | undefined;
   }): Promise<PageResponse<FinancialTransactionResponse>> {
-    const { data } = await apiClient.get<PageResponse<FinancialTransactionResponse>>('/api/v1/financial/transactions', {
-      params: {
-        type: params?.type,
-        status: params?.status,
-        category: params?.category,
-        startDate: params?.startDate,
-        endDate: params?.endDate,
-        page: params?.page ?? 0,
-        size: params?.size ?? 10,
+    const { data } = await apiClient.get<PageResponse<FinancialTransactionResponse>>(
+      '/api/v1/financial/transactions',
+      {
+        params: {
+          type: params?.type,
+          status: params?.status,
+          category: params?.category,
+          startDate: params?.startDate,
+          endDate: params?.endDate,
+          page: params?.page ?? 0,
+          size: params?.size ?? 10,
+        },
       },
-    });
+    );
     return data;
   },
 
-  async createTransaction(payload: FinancialTransactionRequest): Promise<FinancialTransactionResponse> {
-    const { data } = await apiClient.post<FinancialTransactionResponse>('/api/v1/financial/transactions', payload);
+  async createTransaction(
+    payload: FinancialTransactionRequest,
+  ): Promise<FinancialTransactionResponse> {
+    const { data } = await apiClient.post<FinancialTransactionResponse>(
+      '/api/v1/financial/transactions',
+      payload,
+    );
     return data;
   },
 

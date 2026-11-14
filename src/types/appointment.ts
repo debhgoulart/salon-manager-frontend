@@ -1,10 +1,5 @@
 export type AppointmentStatus =
-  | 'AGENDADO'
-  | 'CONFIRMADO'
-  | 'EM_ATENDIMENTO'
-  | 'CONCLUIDO'
-  | 'CANCELADO'
-  | 'NAO_COMPARECEU';
+  'AGENDADO' | 'CONFIRMADO' | 'EM_ATENDIMENTO' | 'CONCLUIDO' | 'CANCELADO' | 'NAO_COMPARECEU';
 
 export interface AppointmentCreateRequest {
   employeeId: string;
@@ -38,6 +33,6 @@ export interface AppointmentResponse {
 
 export interface TimeSlot {
   startTime: string; // HH:mm
-  endTime: string;   // HH:mm
+  endTime: string; // HH:mm
   available: boolean;
 }

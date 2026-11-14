@@ -64,6 +64,21 @@ export function useFormatters() {
     }
   }
 
+  function toUtcIsoString(date: string, time: string): string {
+    const localDate = new Date(`${date}T${time}:00`);
+    return localDate.toISOString();
+  }
+
+  function toLocalTimeString(iso?: string | null): string {
+    if (!iso) return '-';
+    try {
+      const d = new Date(iso);
+      return `${d.getHours().toString().padStart(2, '0')}:${d.getMinutes().toString().padStart(2, '0')}`;
+    } catch {
+      return iso;
+    }
+  }
+
   return {
     formatCurrency,
     formatCpf,
@@ -72,5 +87,7 @@ export function useFormatters() {
     formatPercent,
     formatDate,
     formatDateTime,
+    toUtcIsoString,
+    toLocalTimeString,
   };
 }

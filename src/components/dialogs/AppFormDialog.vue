@@ -1,5 +1,9 @@
 <template>
-  <q-dialog :model-value="modelValue" @update:model-value="$emit('update:modelValue', $event)" persistent>
+  <q-dialog
+    :model-value="modelValue"
+    @update:model-value="$emit('update:modelValue', $event)"
+    persistent
+  >
     <q-card :style="{ minWidth: width, maxWidth: '95vw' }">
       <!-- Cabeçalho -->
       <q-card-section class="row items-center justify-between border-bottom q-py-md">
@@ -18,7 +22,14 @@
 
         <!-- Ações do Rodapé -->
         <q-card-actions align="right" class="q-pa-md border-top">
-          <q-btn flat :label="cancelLabel" no-caps color="grey-7" v-close-popup :disable="loading" />
+          <q-btn
+            flat
+            :label="cancelLabel"
+            no-caps
+            color="grey-7"
+            v-close-popup
+            :disable="loading"
+          />
           <q-btn
             unelevated
             type="submit"
@@ -50,7 +61,7 @@ withDefaults(
     submitLabel: 'Salvar',
     cancelLabel: 'Cancelar',
     loading: false,
-  }
+  },
 );
 
 defineEmits<{

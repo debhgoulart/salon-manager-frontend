@@ -11,7 +11,7 @@ export const useAuthStore = defineStore('auth', () => {
   const accessToken = ref<string | null>(localStorage.getItem(TOKEN_KEY));
   const refreshToken = ref<string | null>(localStorage.getItem(REFRESH_TOKEN_KEY));
   const user = ref<UserSession | null>(
-    localStorage.getItem(USER_KEY) ? JSON.parse(localStorage.getItem(USER_KEY)!) : null
+    localStorage.getItem(USER_KEY) ? JSON.parse(localStorage.getItem(USER_KEY)!) : null,
   );
 
   const isAuthenticated = computed(() => !!accessToken.value);

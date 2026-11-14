@@ -4,7 +4,9 @@
     <div class="row items-center justify-between q-mb-md">
       <div>
         <h1 class="text-h5 text-weight-bold q-my-none">Catálogo de Serviços</h1>
-        <p class="text-caption text-grey-7 q-mb-none">Tabela de procedimentos, tempos de execução e preços</p>
+        <p class="text-caption text-grey-7 q-mb-none">
+          Tabela de procedimentos, tempos de execução e preços
+        </p>
       </div>
 
       <div class="row items-center q-gutter-sm">
@@ -26,13 +28,7 @@
           @update:model-value="handleFilterChange"
         />
 
-        <q-btn
-          unelevated
-          color="primary"
-          no-caps
-          class="q-px-md"
-          @click="openCreateDialog"
-        >
+        <q-btn unelevated color="primary" no-caps class="q-px-md" @click="openCreateDialog">
           <Plus :size="18" class="q-mr-xs" />
           Novo Serviço
         </q-btn>
@@ -69,7 +65,13 @@
         <!-- Comissão Específica -->
         <template #body-cell-customCommissionRate="props">
           <q-td :props="props" class="text-center">
-            <span v-if="props.row.customCommissionRate !== null && props.row.customCommissionRate !== undefined" class="text-weight-medium text-secondary">
+            <span
+              v-if="
+                props.row.customCommissionRate !== null &&
+                props.row.customCommissionRate !== undefined
+              "
+              class="text-weight-medium text-secondary"
+            >
               {{ formatPercent(props.row.customCommissionRate) }}
             </span>
             <span v-else class="text-grey-5 text-caption">Padrão do Profissional</span>
@@ -109,7 +111,9 @@
             >
               <Scissors v-if="props.row.active" :size="16" />
               <Scissors v-else :size="16" class="text-grey-5" />
-              <q-tooltip>{{ props.row.active ? 'Desativar Serviço' : 'Reativar Serviço' }}</q-tooltip>
+              <q-tooltip>{{
+                props.row.active ? 'Desativar Serviço' : 'Reativar Serviço'
+              }}</q-tooltip>
             </q-btn>
           </q-td>
         </template>
@@ -121,7 +125,13 @@
             description="Cadastre procedimentos para disponibilizar horários na agenda."
           >
             <template #action>
-              <q-btn unelevated color="primary" no-caps label="Novo Serviço" @click="openCreateDialog" />
+              <q-btn
+                unelevated
+                color="primary"
+                no-caps
+                label="Novo Serviço"
+                @click="openCreateDialog"
+              />
             </template>
           </AppEmptyState>
         </template>
@@ -132,7 +142,9 @@
     <AppFormDialog
       v-model="dialogVisible"
       :title="isEditing ? 'Editar Serviço' : 'Cadastrar Novo Serviço'"
-      :subtitle="isEditing ? 'Atualize as condições do procedimento' : 'Preencha os dados do serviço'"
+      :subtitle="
+        isEditing ? 'Atualize as condições do procedimento' : 'Preencha os dados do serviço'
+      "
       :loading="saving"
       @submit="handleSave"
     >
@@ -157,7 +169,8 @@
               outlined
               dense
               :rules="[
-                (val) => val !== null && val !== undefined && val !== '' || 'O preço é obrigatório',
+                (val) =>
+                  (val !== null && val !== undefined && val !== '') || 'O preço é obrigatório',
                 (val) => val >= 0 || 'O valor não pode ser negativo',
               ]"
             />
@@ -197,9 +210,11 @@
     <AppConfirmDialog
       v-model="confirmDialogVisible"
       :title="selectedService?.active ? 'Desativar Serviço?' : 'Ativar Serviço?'"
-      :message="selectedService?.active
-        ? `Tem certeza que deseja desativar o serviço ${selectedService?.name}? Ele não estará disponível para novos agendamentos.`
-        : `Deseja reativar o serviço ${selectedService?.name}?`"
+      :message="
+        selectedService?.active
+          ? `Tem certeza que deseja desativar o serviço ${selectedService?.name}? Ele não estará disponível para novos agendamentos.`
+          : `Deseja reativar o serviço ${selectedService?.name}?`
+      "
       :color="selectedService?.active ? 'negative' : 'positive'"
       :confirm-label="selectedService?.active ? 'Desativar' : 'Ativar'"
       :loading="toggling"
@@ -209,12 +224,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, reactive } from 'vue';
+import { ref, reactive } from 'vue';
 import type { QTableProps } from 'quasar';
 import serviceService from 'src/services/serviceService';
 import type { ServiceResponse, ServiceRequest } from 'src/types/service';
 import { useFormatters } from 'src/composables/useFormatters';
 import { useFeedback } from 'src/composables/useFeedback';
+import { usePaginationTable } from 'src/composables/usePaginationTable';
 import AppStatusBadge from 'src/components/common/AppStatusBadge.vue';
 import AppEmptyState from 'src/components/common/AppEmptyState.vue';
 import AppFormDialog from 'src/components/dialogs/AppFormDialog.vue';
@@ -224,11 +240,9 @@ import { Plus, Edit2, Scissors } from 'lucide-vue-next';
 const { formatCurrency, formatMinutes, formatPercent } = useFormatters();
 const { notifySuccess, handleApiError } = useFeedback();
 
-const loading = ref(false);
 const saving = ref(false);
 const toggling = ref(false);
 
-const services = ref<ServiceResponse[]>([]);
 const activeFilter = ref<boolean | null>(null);
 const selectedService = ref<ServiceResponse | null>(null);
 
@@ -236,17 +250,32 @@ const dialogVisible = ref(false);
 const isEditing = ref(false);
 const confirmDialogVisible = ref(false);
 
-const pagination = ref({
-  page: 1,
-  rowsPerPage: 10,
-  rowsNumber: 0,
+const {
+  items: services,
+  loading,
+  pagination,
+  onRequest,
+  reload,
+} = usePaginationTable<ServiceResponse>({
+  fetchFn: (params) =>
+    serviceService.list({
+      page: params.page,
+      size: params.size,
+      active: activeFilter.value !== null ? activeFilter.value : undefined,
+    }),
+  errorMessage: 'Falha ao carregar catálogo de serviços.',
 });
 
 const columns: QTableProps['columns'] = [
   { name: 'name', label: 'Serviço', field: 'name', align: 'left', sortable: true },
   { name: 'price', label: 'Preço', field: 'price', align: 'left', sortable: true },
   { name: 'durationMinutes', label: 'Tempo Estimado', field: 'durationMinutes', align: 'center' },
-  { name: 'customCommissionRate', label: 'Comissão Customizada', field: 'customCommissionRate', align: 'center' },
+  {
+    name: 'customCommissionRate',
+    label: 'Comissão Customizada',
+    field: 'customCommissionRate',
+    align: 'center',
+  },
   { name: 'active', label: 'Status', field: 'active', align: 'center' },
   { name: 'actions', label: 'Ações', field: 'actions', align: 'right' },
 ];
@@ -263,32 +292,9 @@ const form = reactive<{
   customCommissionRate: null,
 });
 
-async function loadServices(page = 1, size = 10) {
-  loading.value = true;
-  try {
-    const res = await serviceService.list({
-      page: page - 1,
-      size,
-      active: activeFilter.value !== null ? activeFilter.value : undefined,
-    });
-    services.value = res.content;
-    pagination.value.page = res.number + 1;
-    pagination.value.rowsPerPage = res.size;
-    pagination.value.rowsNumber = res.totalElements;
-  } catch (err) {
-    handleApiError(err, 'Falha ao carregar catálogo de serviços.');
-  } finally {
-    loading.value = false;
-  }
-}
-
 function handleFilterChange() {
   pagination.value.page = 1;
-  void loadServices(1, pagination.value.rowsPerPage);
-}
-
-function onRequest(props: { pagination: { page: number; rowsPerPage: number } }) {
-  void loadServices(props.pagination.page, props.pagination.rowsPerPage);
+  void reload();
 }
 
 function openCreateDialog() {
@@ -318,9 +324,12 @@ async function handleSave() {
       name: form.name.trim(),
       price: Number(form.price),
       durationMinutes: Number(form.durationMinutes),
-      customCommissionRate: form.customCommissionRate !== null && form.customCommissionRate !== undefined && form.customCommissionRate !== ('' as unknown)
-        ? Number(form.customCommissionRate)
-        : null,
+      customCommissionRate:
+        form.customCommissionRate !== null &&
+        form.customCommissionRate !== undefined &&
+        form.customCommissionRate !== ('' as unknown)
+          ? Number(form.customCommissionRate)
+          : null,
     };
 
     if (isEditing.value && selectedService.value) {
@@ -332,7 +341,7 @@ async function handleSave() {
     }
 
     dialogVisible.value = false;
-    await loadServices(pagination.value.page, pagination.value.rowsPerPage);
+    await reload();
   } catch (err) {
     handleApiError(err, 'Falha ao salvar dados do serviço.');
   } finally {
@@ -357,15 +366,11 @@ async function executeToggleActive() {
       notifySuccess('Serviço reativado com sucesso.');
     }
     confirmDialogVisible.value = false;
-    await loadServices(pagination.value.page, pagination.value.rowsPerPage);
+    await reload();
   } catch (err) {
     handleApiError(err, 'Erro ao alterar status do serviço.');
   } finally {
     toggling.value = false;
   }
 }
-
-onMounted(() => {
-  void loadServices();
-});
 </script>

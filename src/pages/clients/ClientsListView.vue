@@ -4,7 +4,9 @@
     <div class="row items-center justify-between q-mb-md">
       <div>
         <h1 class="text-h5 text-weight-bold q-my-none">Clientes</h1>
-        <p class="text-caption text-grey-7 q-mb-none">Cadastro, contatos e histórico de atendimentos</p>
+        <p class="text-caption text-grey-7 q-mb-none">
+          Cadastro, contatos e histórico de atendimentos
+        </p>
       </div>
 
       <div class="row items-center q-gutter-sm">
@@ -13,13 +15,7 @@
           placeholder="Buscar por nome, telefone ou CPF..."
           @search="handleSearch"
         />
-        <q-btn
-          unelevated
-          color="primary"
-          no-caps
-          class="q-px-md"
-          @click="openCreateDialog"
-        >
+        <q-btn unelevated color="primary" no-caps class="q-px-md" @click="openCreateDialog">
           <Plus :size="18" class="q-mr-xs" />
           Novo Cliente
         </q-btn>
@@ -109,7 +105,13 @@
             description="Cadastre clientes para gerenciar agendamentos e histórico de serviços."
           >
             <template #action>
-              <q-btn unelevated color="primary" no-caps label="Novo Cliente" @click="openCreateDialog" />
+              <q-btn
+                unelevated
+                color="primary"
+                no-caps
+                label="Novo Cliente"
+                @click="openCreateDialog"
+              />
             </template>
           </AppEmptyState>
         </template>
@@ -120,7 +122,9 @@
     <AppFormDialog
       v-model="dialogVisible"
       :title="isEditing ? 'Editar Cliente' : 'Cadastrar Novo Cliente'"
-      :subtitle="isEditing ? 'Atualize os dados de contato do cliente' : 'Preencha as informações básicas'"
+      :subtitle="
+        isEditing ? 'Atualize os dados de contato do cliente' : 'Preencha as informações básicas'
+      "
       :loading="saving"
       @submit="handleSave"
     >
@@ -182,9 +186,11 @@
     <AppConfirmDialog
       v-model="confirmDialogVisible"
       :title="selectedClient?.active ? 'Desativar Cliente?' : 'Ativar Cliente?'"
-      :message="selectedClient?.active
-        ? `Tem certeza que deseja desativar o cliente ${selectedClient?.name}? O cliente não poderá agendar novos serviços.`
-        : `Deseja reativar o cliente ${selectedClient?.name}?`"
+      :message="
+        selectedClient?.active
+          ? `Tem certeza que deseja desativar o cliente ${selectedClient?.name}? O cliente não poderá agendar novos serviços.`
+          : `Deseja reativar o cliente ${selectedClient?.name}?`
+      "
       :color="selectedClient?.active ? 'negative' : 'positive'"
       :confirm-label="selectedClient?.active ? 'Desativar' : 'Ativar'"
       :loading="toggling"
@@ -220,7 +226,8 @@
                   <AppStatusBadge :status="app.status" />
                 </div>
                 <div class="text-caption text-grey-6 q-mt-xs">
-                  Profissional: <span class="text-weight-medium text-grey-8">{{ app.employeeName }}</span>
+                  Profissional:
+                  <span class="text-weight-medium text-grey-8">{{ app.employeeName }}</span>
                 </div>
               </q-item-section>
 
@@ -237,13 +244,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, reactive } from 'vue';
+import { ref, reactive } from 'vue';
 import type { QTableProps } from 'quasar';
 import clientService from 'src/services/clientService';
 import type { ClientResponse, ClientRequest } from 'src/types/client';
 import type { AppointmentResponse } from 'src/types/appointment';
 import { useFormatters } from 'src/composables/useFormatters';
 import { useFeedback } from 'src/composables/useFeedback';
+import { usePaginationTable } from 'src/composables/usePaginationTable';
 import AppSearchInput from 'src/components/widgets/AppSearchInput.vue';
 import AppStatusBadge from 'src/components/common/AppStatusBadge.vue';
 import AppEmptyState from 'src/components/common/AppEmptyState.vue';
@@ -254,13 +262,10 @@ import { Plus, Edit2, UserX, UserCheck, Calendar } from 'lucide-vue-next';
 const { formatPhone, formatCpf, formatCurrency, formatDateTime } = useFormatters();
 const { notifySuccess, handleApiError } = useFeedback();
 
-const loading = ref(false);
 const saving = ref(false);
 const toggling = ref(false);
 const historyLoading = ref(false);
 
-const clients = ref<ClientResponse[]>([]);
-const searchQuery = ref('');
 const selectedClient = ref<ClientResponse | null>(null);
 const clientAppointments = ref<AppointmentResponse[]>([]);
 
@@ -269,10 +274,17 @@ const isEditing = ref(false);
 const confirmDialogVisible = ref(false);
 const historyDialogVisible = ref(false);
 
-const pagination = ref({
-  page: 1,
-  rowsPerPage: 10,
-  rowsNumber: 0,
+const {
+  items: clients,
+  loading,
+  pagination,
+  searchQuery,
+  onRequest,
+  handleSearch,
+  reload,
+} = usePaginationTable<ClientResponse>({
+  fetchFn: (params) => clientService.list(params),
+  errorMessage: 'Falha ao carregar lista de clientes.',
 });
 
 const columns: QTableProps['columns'] = [
@@ -291,35 +303,6 @@ const form = reactive<ClientRequest>({
   cpf: '',
   notes: '',
 });
-
-async function loadClients(page = 1, size = 10, query = searchQuery.value) {
-  loading.value = true;
-  try {
-    const res = await clientService.list({
-      page: page - 1,
-      size,
-      query: query || undefined,
-    });
-    clients.value = res.content;
-    pagination.value.page = res.number + 1;
-    pagination.value.rowsPerPage = res.size;
-    pagination.value.rowsNumber = res.totalElements;
-  } catch (err) {
-    handleApiError(err, 'Falha ao carregar lista de clientes.');
-  } finally {
-    loading.value = false;
-  }
-}
-
-function handleSearch(val: string) {
-  searchQuery.value = val;
-  pagination.value.page = 1;
-  void loadClients(1, pagination.value.rowsPerPage, val);
-}
-
-function onRequest(props: { pagination: { page: number; rowsPerPage: number } }) {
-  void loadClients(props.pagination.page, props.pagination.rowsPerPage);
-}
 
 function openCreateDialog() {
   isEditing.value = false;
@@ -363,7 +346,7 @@ async function handleSave() {
     }
 
     dialogVisible.value = false;
-    await loadClients(pagination.value.page, pagination.value.rowsPerPage);
+    await reload();
   } catch (err) {
     handleApiError(err, 'Falha ao salvar dados do cliente.');
   } finally {
@@ -388,7 +371,7 @@ async function executeToggleActive() {
       notifySuccess('Cliente reativado com sucesso.');
     }
     confirmDialogVisible.value = false;
-    await loadClients(pagination.value.page, pagination.value.rowsPerPage);
+    await reload();
   } catch (err) {
     handleApiError(err, 'Erro ao alterar status do cliente.');
   } finally {
@@ -410,10 +393,6 @@ async function openHistoryDialog(client: ClientResponse) {
     historyLoading.value = false;
   }
 }
-
-onMounted(() => {
-  void loadClients();
-});
 </script>
 
 <style scoped>

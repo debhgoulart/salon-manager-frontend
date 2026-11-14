@@ -3,7 +3,11 @@ import type { ServiceRequest, ServiceResponse } from 'src/types/service';
 import type { PageResponse } from 'src/types/api';
 
 export const serviceService = {
-  async list(params?: { active?: boolean | undefined; page?: number | undefined; size?: number | undefined }): Promise<PageResponse<ServiceResponse>> {
+  async list(params?: {
+    active?: boolean | undefined;
+    page?: number | undefined;
+    size?: number | undefined;
+  }): Promise<PageResponse<ServiceResponse>> {
     const { data } = await apiClient.get<PageResponse<ServiceResponse>>('/api/v1/services', {
       params: {
         active: params?.active,

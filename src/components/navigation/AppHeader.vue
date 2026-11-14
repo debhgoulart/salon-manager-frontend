@@ -14,9 +14,7 @@
       </q-btn>
 
       <!-- Título Dinâmico / Branding -->
-      <q-toolbar-title class="text-subtitle1 text-weight-medium">
-        Salon Manager
-      </q-toolbar-title>
+      <q-toolbar-title class="text-subtitle1 text-weight-medium"> Salon Manager </q-toolbar-title>
 
       <q-space />
 
@@ -40,8 +38,12 @@
           {{ userInitials }}
         </q-avatar>
         <div class="q-ml-sm text-left gt-xs">
-          <div class="text-caption text-weight-bold leading-tight">{{ authStore.user?.name || 'Usuário' }}</div>
-          <div class="text-caption text-grey-6 text-weight-regular leading-tight">{{ roleLabel }}</div>
+          <div class="text-caption text-weight-bold leading-tight">
+            {{ authStore.user?.name || 'Usuário' }}
+          </div>
+          <div class="text-caption text-grey-6 text-weight-regular leading-tight">
+            {{ roleLabel }}
+          </div>
         </div>
 
         <!-- Menu Dropdown -->
@@ -114,7 +116,7 @@ async function handleLogout() {
 
 body.body--dark .app-header {
   background: rgba(21, 23, 28, 0.95);
-  color: #F1F3F5;
+  color: #f1f3f5;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 

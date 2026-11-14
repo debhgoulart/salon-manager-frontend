@@ -10,6 +10,7 @@
 O **Salon Manager** adota o padrão estético **SaaS Boutique Contemporâneo**, distanciando-se de templates administrativos genéricos e priorizando sofisticação, tipografia nítida e hierarquia visual refinada.
 
 ### Paleta de Cores
+
 - **Vinho Nobre (`#7B3F61`):** Cor primária institucional, transmitindo elegância, autoridade e estética.
 - **Champagne Dourado (`#C59B6D`):** Cor secundária para acentos refinados e destaques nobres.
 - **Lavanda Suave (`#9E7B9B`):** Acento para badges e gráficos.
@@ -19,6 +20,7 @@ O **Salon Manager** adota o padrão estético **SaaS Boutique Contemporâneo**, 
 - **Azul Petróleo (`#457B9D`):** Informativo e agendamentos futuros.
 
 ### Suporte Nativo a Temas (Light / Dark)
+
 - Alternância instantânea pela interface via componente `AppHeader` ou na tela de Configurações.
 - Preferência gravada e persistida no `LocalStorage` do navegador através da store `useThemeStore`.
 
@@ -26,17 +28,17 @@ O **Salon Manager** adota o padrão estético **SaaS Boutique Contemporâneo**, 
 
 ## 🛠️ 2. Stack Tecnológica
 
-| Componente | Tecnologia | Versão |
-|---|---|---|
-| **Linguagem** | TypeScript | Strict Mode |
-| **Framework Base** | Vue.js | 3.5+ (Composition API + `<script setup>`) |
-| **UI Framework** | Quasar Framework | 2.35+ com Quasar CLI + Vite |
-| **Gerenciamento de Estado** | Pinia | 2.x |
-| **Roteamento** | Vue Router | History Mode (URLs limpas) |
-| **Comunicação HTTP** | Axios | Interceptors de Bearer Token & Refresh silencioso |
-| **Gráficos Analíticos** | ApexCharts + Vue3-ApexCharts | Gráficos interativos |
-| **Ícones** | Lucide Icons (`@lucide/vue`) | Traços finos e minimalistas |
-| **Tratamento de Datas** | date-fns | Padrão pt-BR |
+| Componente                  | Tecnologia                   | Versão                                            |
+| --------------------------- | ---------------------------- | ------------------------------------------------- |
+| **Linguagem**               | TypeScript                   | Strict Mode                                       |
+| **Framework Base**          | Vue.js                       | 3.5+ (Composition API + `<script setup>`)         |
+| **UI Framework**            | Quasar Framework             | 2.35+ com Quasar CLI + Vite                       |
+| **Gerenciamento de Estado** | Pinia                        | 2.x                                               |
+| **Roteamento**              | Vue Router                   | History Mode (URLs limpas)                        |
+| **Comunicação HTTP**        | Axios                        | Interceptors de Bearer Token & Refresh silencioso |
+| **Gráficos Analíticos**     | ApexCharts + Vue3-ApexCharts | Gráficos interativos                              |
+| **Ícones**                  | Lucide Icons (`@lucide/vue`) | Traços finos e minimalistas                       |
+| **Tratamento de Datas**     | date-fns                     | Padrão pt-BR                                      |
 
 ---
 
@@ -100,28 +102,34 @@ salon-manager-frontend/
 ## ⚡ 5. Executando a Aplicação Localmente
 
 ### Pré-requisitos
+
 - **Node.js:** Versão `>= 20` (recomendado v22 ou v24)
 - **NPM:** Gerenciador de pacotes
 
 ### 1. Clonar e Instalar Dependências
+
 ```bash
 cd salon-manager-frontend
 npm install
 ```
 
 ### 2. Configurar Variáveis de Ambiente
+
 Copie o arquivo `.env.example` para `.env`:
+
 ```bash
 cp .env.example .env
 ```
 
 Conteúdo padrão do `.env`:
+
 ```env
 VITE_API_URL=http://localhost:8080
 VITE_APP_NAME=Salon Manager
 ```
 
 ### 3. Iniciar o Servidor de Desenvolvimento
+
 ```bash
 npm run dev
 # ou
@@ -131,12 +139,15 @@ quasar dev
 A aplicação iniciará automaticamente no navegador em `http://localhost:9000` (ou porta disponível).
 
 ### 4. Compilar para Produção (Build)
+
 ```bash
 npm run build
 ```
+
 Os arquivos otimizados e minificados serão gerados no diretório `dist/spa`.
 
 ### 5. Checagem de Tipos TypeScript
+
 ```bash
 npm run typecheck
 ```
