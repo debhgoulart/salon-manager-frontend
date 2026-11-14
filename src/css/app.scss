@@ -1,5 +1,5 @@
 // app global css in SCSS form
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
 
 body {
   font-family:
@@ -16,7 +16,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-// Cards SaaS Styling
+// Estilização Editorial de Cards
 .q-card {
   border-radius: 12px;
   transition:
@@ -25,32 +25,50 @@ body {
 }
 
 body.body--light {
-  background-color: #f8f9fa;
+  background-color: #fafafa;
+  color: #09090b;
 
   .q-card {
-    box-shadow:
-      0 1px 3px 0 rgba(0, 0, 0, 0.05),
-      0 1px 2px -1px rgba(0, 0, 0, 0.05);
-    border: 1px solid rgba(0, 0, 0, 0.06);
+    background-color: #ffffff;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
+    border: 1px solid #e4e4e7;
+
+    &:hover {
+      border-color: #d4d4d8;
+    }
   }
 
   .stat-card {
-    background: #ffffff;
-    border: 1px solid rgba(123, 63, 97, 0.08);
+    background-color: #ffffff;
+    border: 1px solid #e4e4e7;
+  }
+
+  .border-subtle {
+    border-color: #e4e4e7;
   }
 }
 
 body.body--dark {
-  background-color: #0d0e11;
+  background-color: #09090b;
+  color: #f4f4f5;
 
   .q-card {
-    background: #15171c;
-    border: 1px solid rgba(255, 255, 255, 0.06);
+    background-color: #121214;
+    border: 1px solid #27272a;
+    box-shadow: none;
+
+    &:hover {
+      border-color: #3f3f46;
+    }
   }
 
   .stat-card {
-    background: #181a20;
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background-color: #121214;
+    border: 1px solid #27272a;
+  }
+
+  .border-subtle {
+    border-color: #27272a;
   }
 }
 
@@ -74,11 +92,26 @@ body.body--dark {
 // Utilitários de texto e moeda
 .text-currency {
   font-variant-numeric: tabular-nums;
-  font-weight: 600;
+  font-weight: 700;
 }
 
-.brand-gradient {
-  background: linear-gradient(135deg, #7b3f61 0%, #c59b6d 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+.editorial-title {
+  letter-spacing: -0.025em;
+  font-weight: 700;
+}
+
+.fashion-accent {
+  color: #e11d48;
+}
+
+.brand-editorial-badge {
+  background-color: #09090b;
+  color: #ffffff;
+  border: 1px solid #27272a;
+}
+
+body.body--dark .brand-editorial-badge {
+  background-color: #f4f4f5;
+  color: #09090b;
+  border: 1px solid #e4e4e7;
 }

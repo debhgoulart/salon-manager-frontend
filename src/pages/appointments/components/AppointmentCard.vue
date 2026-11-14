@@ -18,14 +18,14 @@
         <AppStatusBadge :status="appointment.status" />
       </div>
 
-      <div class="text-caption text-grey-8 ellipsis q-mt-xs">
-        {{ appointment.serviceName }} •
+      <div class="text-caption text-grey-7 ellipsis q-mt-xs">
+        {{ appointment.serviceName }} &bull;
         <span class="text-weight-medium">{{ appointment.employeeName }}</span>
       </div>
 
-      <div class="row items-center justify-between text-caption text-grey-7 q-mt-xs">
-        <span>{{ formattedTimeRange }}</span>
-        <span v-if="!isBlocked" class="text-weight-bold text-primary">
+      <div class="row items-center justify-between text-caption text-grey-6 q-mt-xs">
+        <span class="font-mono-time">{{ formattedTimeRange }}</span>
+        <span v-if="!isBlocked" class="text-weight-bold text-primary text-currency">
           {{ formatCurrency(appointment.price) }}
         </span>
       </div>
@@ -37,8 +37,8 @@
         <Lock v-if="isBlocked" :size="12" class="q-mr-xs text-grey-7" />
         {{ appointment.clientName }}
       </div>
-      <div class="text-caption ellipsis text-grey-8">{{ appointment.serviceName }}</div>
-      <div class="text-caption text-weight-bold text-primary">
+      <div class="text-caption ellipsis text-grey-7">{{ appointment.serviceName }}</div>
+      <div class="text-caption text-weight-bold text-primary font-mono-time">
         {{ formattedTimeRange }}
       </div>
     </template>
@@ -91,86 +91,118 @@ const formattedTimeRange = computed(() => {
 
 <style scoped lang="scss">
 .appointment-card {
-  background: white;
+  background-color: #ffffff;
   border-radius: 8px;
   padding: 8px 12px;
-  border-left: 4px solid #9e9e9e;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e4e4e7;
+  border-left: 3px solid #71717a;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.15s ease;
   min-height: 44px;
 
   &:hover {
     transform: translateY(-1px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
+    border-color: #d4d4d8;
   }
 
   &.status-agendado {
-    border-left-color: #2196f3;
+    border-left-color: #71717a;
   }
   &.status-confirmado {
-    border-left-color: #7b3f61;
+    border-left-color: #09090b;
   }
   &.status-em_atendimento {
-    border-left-color: #f57c00;
+    border-left-color: #f59e0b;
   }
   &.status-concluido {
-    border-left-color: #4caf50;
+    border-left-color: #10b981;
   }
   &.status-cancelado {
-    border-left-color: #f44336;
+    border-left-color: #e11d48;
     opacity: 0.75;
   }
   &.status-nao_compareceu {
-    border-left-color: #673ab7;
+    border-left-color: #6b7280;
     opacity: 0.8;
   }
 
   &.is-blocked {
-    background: repeating-linear-gradient(45deg, #f5f5f5, #f5f5f5 10px, #ebebeb 10px, #ebebeb 20px);
-    border-left-color: #757575;
+    background: repeating-linear-gradient(45deg, #f4f4f5, #f4f4f5 10px, #e4e4e7 10px, #e4e4e7 20px);
+    border-left-color: #27272a;
+  }
+}
+
+body.body--dark .appointment-card {
+  background-color: #121214;
+  border-color: #27272a;
+
+  &.status-confirmado {
+    border-left-color: #f4f4f5;
+  }
+
+  &.is-blocked {
+    background: repeating-linear-gradient(45deg, #18181b, #18181b 10px, #27272a 10px, #27272a 20px);
+    border-left-color: #71717a;
   }
 }
 
 .appointment-mini-card {
-  background: white;
+  background-color: #ffffff;
   border-radius: 6px;
   padding: 4px 8px;
-  border-left: 3px solid #9e9e9e;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+  border: 1px solid #e4e4e7;
+  border-left: 3px solid #71717a;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.15s ease;
   margin-bottom: 4px;
 
   &:hover {
     transform: translateY(-1px);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-color: #d4d4d8;
   }
 
   &.status-agendado {
-    border-left-color: #2196f3;
+    border-left-color: #71717a;
   }
   &.status-confirmado {
-    border-left-color: #7b3f61;
+    border-left-color: #09090b;
   }
   &.status-em_atendimento {
-    border-left-color: #f57c00;
+    border-left-color: #f59e0b;
   }
   &.status-concluido {
-    border-left-color: #4caf50;
+    border-left-color: #10b981;
   }
   &.status-cancelado {
-    border-left-color: #f44336;
+    border-left-color: #e11d48;
     opacity: 0.75;
   }
   &.status-nao_compareceu {
-    border-left-color: #673ab7;
+    border-left-color: #6b7280;
     opacity: 0.8;
   }
 
   &.is-blocked {
-    background: repeating-linear-gradient(45deg, #f5f5f5, #f5f5f5 10px, #ebebeb 10px, #ebebeb 20px);
-    border-left-color: #757575;
+    background: repeating-linear-gradient(45deg, #f4f4f5, #f4f4f5 10px, #e4e4e7 10px, #e4e4e7 20px);
+    border-left-color: #27272a;
   }
+}
+
+body.body--dark .appointment-mini-card {
+  background-color: #121214;
+  border-color: #27272a;
+
+  &.status-confirmado {
+    border-left-color: #f4f4f5;
+  }
+
+  &.is-blocked {
+    background: repeating-linear-gradient(45deg, #18181b, #18181b 10px, #27272a 10px, #27272a 20px);
+    border-left-color: #71717a;
+  }
+}
+
+.font-mono-time {
+  font-variant-numeric: tabular-nums;
 }
 </style>

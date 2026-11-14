@@ -2,7 +2,14 @@
   <q-card flat class="q-pa-sm q-mb-md date-nav-card">
     <div class="row items-center justify-between">
       <div class="row items-center q-gutter-x-sm">
-        <q-btn flat round dense size="sm" @click="$emit('navigate', -1)">
+        <q-btn
+          flat
+          round
+          dense
+          size="sm"
+          aria-label="Período Anterior"
+          @click="$emit('navigate', -1)"
+        >
           <ChevronLeft :size="18" />
           <q-tooltip>Período Anterior</q-tooltip>
         </q-btn>
@@ -25,7 +32,14 @@
           </q-popup-proxy>
         </q-btn>
 
-        <q-btn flat round dense size="sm" @click="$emit('navigate', 1)">
+        <q-btn
+          flat
+          round
+          dense
+          size="sm"
+          aria-label="Próximo Período"
+          @click="$emit('navigate', 1)"
+        >
           <ChevronRight :size="18" />
           <q-tooltip>Próximo Período</q-tooltip>
         </q-btn>
@@ -38,19 +52,19 @@
       <!-- Legenda rápida de status -->
       <div class="row items-center q-gutter-x-sm gt-xs text-caption">
         <span class="flex items-center">
-          <span class="legend-dot bg-info q-mr-xs"></span>Agendado
+          <span class="legend-dot status-agendado-dot q-mr-xs" />Agendado
         </span>
         <span class="flex items-center">
-          <span class="legend-dot bg-primary q-mr-xs"></span>Confirmado
+          <span class="legend-dot status-confirmado-dot q-mr-xs" />Confirmado
         </span>
         <span class="flex items-center">
-          <span class="legend-dot bg-warning q-mr-xs"></span>Em Atendimento
+          <span class="legend-dot status-em-atendimento-dot q-mr-xs" />Em Atendimento
         </span>
         <span class="flex items-center">
-          <span class="legend-dot bg-positive q-mr-xs"></span>Concluído
+          <span class="legend-dot status-concluido-dot q-mr-xs" />Concluído
         </span>
         <span class="flex items-center">
-          <span class="legend-dot bg-negative q-mr-xs"></span>Cancelado
+          <span class="legend-dot status-cancelado-dot q-mr-xs" />Cancelado
         </span>
       </div>
     </div>
@@ -84,9 +98,14 @@ function onDateSelect(val: string) {
 
 <style scoped lang="scss">
 .date-nav-card {
-  background: white;
-  border: 1px solid #e0e0e0;
+  background-color: #ffffff;
+  border: 1px solid #e4e4e7;
   border-radius: 8px;
+}
+
+body.body--dark .date-nav-card {
+  background-color: #121214;
+  border-color: #27272a;
 }
 
 .legend-dot {
@@ -94,5 +113,29 @@ function onDateSelect(val: string) {
   height: 8px;
   border-radius: 50%;
   display: inline-block;
+}
+
+.status-agendado-dot {
+  background-color: #71717a;
+}
+
+.status-confirmado-dot {
+  background-color: #09090b;
+}
+
+body.body--dark .status-confirmado-dot {
+  background-color: #f4f4f5;
+}
+
+.status-em-atendimento-dot {
+  background-color: #f59e0b;
+}
+
+.status-concluido-dot {
+  background-color: #10b981;
+}
+
+.status-cancelado-dot {
+  background-color: #e11d48;
 }
 </style>

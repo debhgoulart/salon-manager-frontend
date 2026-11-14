@@ -3,7 +3,7 @@
     <!-- Topbar & Filtro de Período -->
     <div class="row items-center justify-between q-mb-lg">
       <div>
-        <h1 class="text-h5 text-weight-bold q-my-none">Visão Executiva</h1>
+        <h1 class="text-h5 text-weight-bold editorial-title q-my-none">Visão Executiva</h1>
         <p class="text-caption text-grey-7 q-mb-none">
           Métricas de rentabilidade, produtividade e atendimentos
         </p>
@@ -22,7 +22,7 @@
           <template #prepend><Calendar :size="16" class="text-grey-6" /></template>
         </q-input>
 
-        <span class="text-grey-6">até</span>
+        <span class="text-grey-6 text-caption">até</span>
 
         <q-input
           v-model="endDate"
@@ -48,7 +48,7 @@
           :value="formatCurrency(overview.totalRevenue)"
           subtitle="Receitas apuradas"
           :icon="TrendingUp"
-          color="#2A9D8F"
+          color="#09090B"
           :loading="loading"
         />
       </div>
@@ -59,7 +59,7 @@
           :value="formatCurrency(overview.totalExpenses)"
           subtitle="Saídas e compras"
           :icon="TrendingDown"
-          color="#E76F51"
+          color="#E11D48"
           :loading="loading"
         />
       </div>
@@ -70,7 +70,7 @@
           :value="formatCurrency(overview.totalCommissions)"
           subtitle="Repasse aos colaboradores"
           :icon="Award"
-          color="#E9C46A"
+          color="#71717A"
           :loading="loading"
         />
       </div>
@@ -81,7 +81,7 @@
           :value="formatCurrency(overview.netProfit)"
           subtitle="Resultado operacional"
           :icon="DollarSign"
-          :color="overview.netProfit >= 0 ? '#7B3F61' : '#E76F51'"
+          :color="overview.netProfit >= 0 ? '#09090B' : '#E11D48'"
           :loading="loading"
         />
       </div>
@@ -91,11 +91,11 @@
     <div class="row q-col-gutter-md q-mb-lg">
       <div class="col-6 col-md-3">
         <q-card flat class="q-pa-sm counter-card flex items-center">
-          <q-avatar size="36px" color="teal-1" text-color="teal-8" class="q-mr-sm">
+          <q-avatar size="36px" class="q-mr-sm count-avatar count-avatar-done">
             <CheckCircle2 :size="18" />
           </q-avatar>
           <div>
-            <div class="text-h6 text-weight-bold leading-none">
+            <div class="text-h6 text-weight-bold leading-none text-currency">
               {{ overview.completedAppointmentsCount }}
             </div>
             <div class="text-caption text-grey-6">Atendimentos Concluídos</div>
@@ -105,11 +105,11 @@
 
       <div class="col-6 col-md-3">
         <q-card flat class="q-pa-sm counter-card flex items-center">
-          <q-avatar size="36px" color="red-1" text-color="red-8" class="q-mr-sm">
+          <q-avatar size="36px" class="q-mr-sm count-avatar count-avatar-cancel">
             <XCircle :size="18" />
           </q-avatar>
           <div>
-            <div class="text-h6 text-weight-bold leading-none">
+            <div class="text-h6 text-weight-bold leading-none text-currency">
               {{ overview.canceledAppointmentsCount }}
             </div>
             <div class="text-caption text-grey-6">Cancelamentos</div>
@@ -119,11 +119,11 @@
 
       <div class="col-6 col-md-3">
         <q-card flat class="q-pa-sm counter-card flex items-center">
-          <q-avatar size="36px" color="blue-1" text-color="blue-8" class="q-mr-sm">
+          <q-avatar size="36px" class="q-mr-sm count-avatar count-avatar-client">
             <Users :size="18" />
           </q-avatar>
           <div>
-            <div class="text-h6 text-weight-bold leading-none">
+            <div class="text-h6 text-weight-bold leading-none text-currency">
               {{ overview.activeClientsCount }}
             </div>
             <div class="text-caption text-grey-6">Clientes em Atividade</div>
@@ -133,11 +133,11 @@
 
       <div class="col-6 col-md-3">
         <q-card flat class="q-pa-sm counter-card flex items-center">
-          <q-avatar size="36px" color="purple-1" text-color="purple-8" class="q-mr-sm">
+          <q-avatar size="36px" class="q-mr-sm count-avatar count-avatar-team">
             <UserCheck :size="18" />
           </q-avatar>
           <div>
-            <div class="text-h6 text-weight-bold leading-none">
+            <div class="text-h6 text-weight-bold leading-none text-currency">
               {{ overview.activeEmployeesCount }}
             </div>
             <div class="text-caption text-grey-6">Profissionais Ativos</div>
@@ -146,143 +146,19 @@
       </div>
     </div>
 
-    <!-- Gráficos ApexCharts -->
-    <div class="row q-col-gutter-lg q-mb-lg">
-      <!-- Gráfico 1: Tendência Financeira (Receitas vs Despesas) -->
-      <div class="col-12 col-md-7">
-        <q-card flat class="q-pa-md chart-card fit">
-          <div class="text-subtitle1 text-weight-bold q-mb-xs">Comparativo Financeiro</div>
-          <div class="text-caption text-grey-6 q-mb-md">
-            Receitas apuradas vs. Despesas e Comissões
-          </div>
-          <VueApexCharts
-            type="bar"
-            height="260"
-            :options="financialChartOptions"
-            :series="financialChartSeries"
-          />
-        </q-card>
-      </div>
+    <!-- Seção de Gráficos -->
+    <DashboardChartsSection :overview="overview" :top-services="topServices" />
 
-      <!-- Gráfico 2: Top Serviços por Faturamento -->
-      <div class="col-12 col-md-5">
-        <q-card flat class="q-pa-md chart-card fit">
-          <div class="text-subtitle1 text-weight-bold q-mb-xs">Serviços Mais Lucrativos</div>
-          <div class="text-caption text-grey-6 q-mb-md">Faturamento gerado por procedimento</div>
-          <div v-if="topServices.length === 0" class="q-pa-lg text-center text-grey-5">
-            Nenhum serviço registrado no período
-          </div>
-          <VueApexCharts
-            v-else
-            type="donut"
-            height="260"
-            :options="servicesChartOptions"
-            :series="servicesChartSeries"
-          />
-        </q-card>
-      </div>
-    </div>
-
-    <!-- Tabelas de Acompanhamento Rápido -->
-    <div class="row q-col-gutter-lg">
-      <!-- Ranking de Profissionais -->
-      <div class="col-12 col-md-6">
-        <q-card flat class="table-card fit">
-          <div class="q-pa-md border-bottom row items-center justify-between">
-            <span class="text-subtitle2 text-weight-bold">Profissionais com Maior Faturamento</span>
-            <q-btn
-              flat
-              dense
-              no-caps
-              size="sm"
-              color="primary"
-              to="/funcionarios"
-              label="Ver Equipe"
-            />
-          </div>
-
-          <div
-            v-if="topEmployees.length === 0"
-            class="q-pa-md text-center text-grey-6 text-caption"
-          >
-            Nenhum atendimento faturado no período selecionado.
-          </div>
-
-          <q-list v-else separator>
-            <q-item v-for="(emp, idx) in topEmployees" :key="emp.employeeId" class="q-py-sm">
-              <q-item-section avatar>
-                <q-avatar
-                  size="28px"
-                  :color="idx === 0 ? 'secondary' : 'grey-3'"
-                  :text-color="idx === 0 ? 'white' : 'grey-8'"
-                  class="text-weight-bold text-caption"
-                >
-                  {{ idx + 1 }}
-                </q-avatar>
-              </q-item-section>
-
-              <q-item-section>
-                <div class="text-weight-bold text-body2">{{ emp.employeeName }}</div>
-                <div class="text-caption text-grey-6">
-                  {{ emp.executionCount }} serviços realizados
-                </div>
-              </q-item-section>
-
-              <q-item-section side class="text-right">
-                <div class="text-weight-bold text-primary">
-                  {{ formatCurrency(emp.totalBilled) }}
-                </div>
-                <div class="text-caption text-grey-6">
-                  Comissão: {{ formatCurrency(emp.totalCommission) }}
-                </div>
-              </q-item-section>
-            </q-item>
-          </q-list>
-        </q-card>
-      </div>
-
-      <!-- Próximos Atendimentos -->
-      <div class="col-12 col-md-6">
-        <q-card flat class="table-card fit">
-          <div class="q-pa-md border-bottom row items-center justify-between">
-            <span class="text-subtitle2 text-weight-bold">Próximos Horários da Agenda</span>
-            <q-btn flat dense no-caps size="sm" color="primary" to="/agenda" label="Abrir Agenda" />
-          </div>
-
-          <div
-            v-if="upcomingAppointments.length === 0"
-            class="q-pa-md text-center text-grey-6 text-caption"
-          >
-            Não há atendimentos pendentes agendados para os próximos horários.
-          </div>
-
-          <q-list v-else separator>
-            <q-item v-for="app in upcomingAppointments" :key="app.appointmentId" class="q-py-sm">
-              <q-item-section>
-                <div class="row items-center q-gutter-x-sm">
-                  <span class="text-weight-bold text-body2">{{ app.clientName }}</span>
-                  <AppStatusBadge :status="app.status" />
-                </div>
-                <div class="text-caption text-grey-7 q-mt-xs">
-                  {{ app.serviceName }} •
-                  <span class="text-weight-medium">{{ app.employeeName }}</span>
-                </div>
-              </q-item-section>
-
-              <q-item-section side class="text-right">
-                <div class="text-weight-bold text-primary">{{ formatDateTime(app.startTime) }}</div>
-              </q-item-section>
-            </q-item>
-          </q-list>
-        </q-card>
-      </div>
-    </div>
+    <!-- Seção de Tabelas Rápidas -->
+    <DashboardTablesSection
+      :top-employees="topEmployees"
+      :upcoming-appointments="upcomingAppointments"
+    />
   </q-page>
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, computed, onMounted } from 'vue';
-import VueApexCharts from 'vue3-apexcharts';
+import { ref, reactive, onMounted } from 'vue';
 import dashboardService from 'src/services/dashboardService';
 import type {
   DashboardOverviewResponse,
@@ -292,7 +168,8 @@ import type {
 } from 'src/types/dashboard';
 import { useFormatters } from 'src/composables/useFormatters';
 import AppStatCard from 'src/components/widgets/AppStatCard.vue';
-import AppStatusBadge from 'src/components/common/AppStatusBadge.vue';
+import DashboardChartsSection from './components/DashboardChartsSection.vue';
+import DashboardTablesSection from './components/DashboardTablesSection.vue';
 import {
   TrendingUp,
   TrendingDown,
@@ -305,7 +182,7 @@ import {
   Calendar,
 } from 'lucide-vue-next';
 
-const { formatCurrency, formatDateTime } = useFormatters();
+const { formatCurrency } = useFormatters();
 
 const loading = ref(false);
 const startDate = ref(getFirstDayOfMonth());
@@ -367,89 +244,57 @@ async function loadDashboardData() {
   }
 }
 
-// Configuração do Gráfico Comparativo
-const financialChartSeries = computed(() => [
-  {
-    name: 'Total (R$)',
-    data: [
-      overview.totalRevenue,
-      overview.totalExpenses,
-      overview.totalCommissions,
-      overview.netProfit,
-    ],
-  },
-]);
-
-const financialChartOptions = {
-  chart: { toolbar: { show: false }, fontFamily: 'inherit' },
-  colors: ['#2A9D8F', '#E76F51', '#E9C46A', '#7B3F61'],
-  plotOptions: {
-    bar: {
-      distributed: true,
-      borderRadius: 6,
-      columnWidth: '45%',
-    },
-  },
-  dataLabels: { enabled: false },
-  xaxis: {
-    categories: ['Faturamento', 'Despesas', 'Comissões', 'Lucro Líquido'],
-  },
-  yaxis: {
-    labels: {
-      formatter: (val: number) => `R$ ${val.toFixed(0)}`,
-    },
-  },
-  legend: { show: false },
-};
-
-// Configuração do Gráfico de Serviços Mais Rentáveis
-const servicesChartSeries = computed(() => {
-  return topServices.value.map((s) => s.totalRevenue);
-});
-
-const servicesChartOptions = computed(() => ({
-  chart: { fontFamily: 'inherit' },
-  labels: topServices.value.map((s) => s.serviceName),
-  colors: ['#7B3F61', '#C59B6D', '#2A9D8F', '#457B9D', '#9E7B9B'],
-  legend: { position: 'bottom' as const },
-  dataLabels: { enabled: false },
-  tooltip: {
-    y: {
-      formatter: (val: number) => `R$ ${val.toFixed(2)}`,
-    },
-  },
-}));
-
 onMounted(() => {
   void loadDashboardData();
 });
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .date-input {
-  width: 135px;
+  width: 140px;
 }
+
 .counter-card {
   border-radius: 10px;
-  background: #ffffff;
+  background-color: #ffffff;
+  border: 1px solid #e4e4e7;
 }
+
 body.body--dark .counter-card {
-  background: #15171c;
+  background-color: #121214;
+  border-color: #27272a;
 }
-.chart-card {
-  border-radius: 12px;
-  background: #ffffff;
-}
-body.body--dark .chart-card {
-  background: #15171c;
-}
+
 .leading-none {
   line-height: 1;
 }
-.border-bottom {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+
+.count-avatar {
+  border-radius: 8px;
 }
-body.body--dark .border-bottom {
-  border-bottom-color: rgba(255, 255, 255, 0.08);
+
+.count-avatar-done {
+  background-color: rgba(16, 185, 129, 0.1);
+  color: #10b981;
+}
+
+.count-avatar-cancel {
+  background-color: rgba(225, 29, 72, 0.1);
+  color: #e11d48;
+}
+
+.count-avatar-client {
+  background-color: rgba(9, 9, 11, 0.08);
+  color: #09090b;
+}
+
+body.body--dark .count-avatar-client {
+  background-color: rgba(244, 244, 245, 0.1);
+  color: #f4f4f5;
+}
+
+.count-avatar-team {
+  background-color: rgba(113, 113, 122, 0.1);
+  color: #71717a;
 }
 </style>

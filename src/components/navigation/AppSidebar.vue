@@ -13,10 +13,11 @@
       <div class="flex items-center no-wrap cursor-pointer" @click="$router.push('/')">
         <div class="brand-mini-logo flex flex-center">
           <span>SM</span>
+          <span class="mini-brand-dot" />
         </div>
         <div v-if="!themeStore.miniState" class="q-ml-sm brand-title">
-          <div class="text-subtitle1 text-weight-bold text-primary">Salon Manager</div>
-          <div class="text-caption text-grey-6 text-weight-regular">Gestão Inteligente</div>
+          <div class="text-subtitle2 text-weight-bold editorial-title">SALON MANAGER</div>
+          <div class="text-caption text-grey-6 font-caption-tight">ESTHÉTIQUE &bull; FASHION</div>
         </div>
       </div>
 
@@ -27,6 +28,7 @@
         round
         size="sm"
         class="gt-sm text-grey-6"
+        aria-label="Recolher Menu"
         @click="themeStore.toggleMiniState"
       >
         <ChevronLeft :size="18" />
@@ -48,10 +50,10 @@
             class="menu-item q-mx-sm q-my-xs"
           >
             <q-item-section avatar class="item-icon-section">
-              <component :is="item.icon" :size="20" />
+              <component :is="item.icon" :size="18" />
             </q-item-section>
 
-            <q-item-section class="text-weight-medium">
+            <q-item-section class="text-caption text-weight-medium">
               {{ item.title }}
             </q-item-section>
           </q-item>
@@ -136,65 +138,98 @@ const visibleMenuItems = computed(() => {
 
 <style scoped lang="scss">
 .app-sidebar {
-  background: #ffffff;
+  background-color: #ffffff;
+  border-right: 1px solid #e4e4e7;
 }
 
 body.body--dark .app-sidebar {
-  background: #15171c;
+  background-color: #09090b;
+  border-right: 1px solid #27272a;
 }
 
 .brand-mini-logo {
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
-  background: linear-gradient(135deg, #7b3f61 0%, #c59b6d 100%);
-  color: #fff;
-  font-weight: 700;
-  font-size: 0.95rem;
+  position: relative;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  background-color: #09090b;
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+  border: 1px solid #27272a;
+}
+
+body.body--dark .brand-mini-logo {
+  background-color: #f4f4f5;
+  color: #09090b;
+  border: 1px solid #e4e4e7;
+}
+
+.mini-brand-dot {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: #e11d48;
 }
 
 .brand-title {
-  line-height: 1.1;
+  line-height: 1.15;
+}
+
+.font-caption-tight {
+  font-size: 0.65rem;
+  letter-spacing: 0.05em;
+  font-weight: 600;
 }
 
 .menu-item {
   border-radius: 8px;
-  transition: all 0.2s ease;
-  color: #495057;
+  transition: all 0.15s ease;
+  color: #71717a;
+  min-height: 40px;
 
   &:hover {
-    background: rgba(123, 63, 97, 0.05);
-    color: #7b3f61;
+    background-color: #f4f4f5;
+    color: #09090b;
   }
 }
 
 body.body--dark .menu-item {
-  color: #adb5bd;
+  color: #a1a1aa;
 
   &:hover {
-    background: rgba(255, 255, 255, 0.05);
-    color: #f1f3f5;
+    background-color: #18181b;
+    color: #f4f4f5;
   }
 }
 
 .active-menu-item {
-  background: linear-gradient(
-    90deg,
-    rgba(123, 63, 97, 0.12) 0%,
-    rgba(197, 155, 109, 0.08) 100%
-  ) !important;
-  color: #7b3f61 !important;
+  background-color: #09090b !important;
+  color: #ffffff !important;
   font-weight: 600;
-  border-left: 3px solid #7b3f61;
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    right: 8px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: #e11d48;
+  }
 }
 
 body.body--dark .active-menu-item {
-  background: rgba(123, 63, 97, 0.25) !important;
-  color: #c59b6d !important;
-  border-left-color: #c59b6d;
+  background-color: #f4f4f5 !important;
+  color: #09090b !important;
 }
 
 .item-icon-section {
-  min-width: 40px;
+  min-width: 36px;
 }
 </style>

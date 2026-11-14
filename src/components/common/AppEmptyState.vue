@@ -1,10 +1,12 @@
 <template>
   <div class="column flex-center q-pa-xl text-center empty-state">
     <div class="empty-icon-wrap q-mb-md">
-      <Inbox :size="40" class="text-grey-5" />
+      <Inbox :size="32" class="text-grey-6" />
     </div>
-    <div class="text-subtitle1 text-weight-bold text-grey-8">{{ title }}</div>
-    <div class="text-caption text-grey-6 q-mt-xs" style="max-width: 320px">
+    <div class="text-subtitle1 text-weight-bold editorial-title text-grey-9">
+      {{ title }}
+    </div>
+    <div class="text-caption text-grey-6 q-mt-xs" style="max-width: 340px">
       {{ description }}
     </div>
     <div v-if="$slots.action" class="q-mt-md">
@@ -28,18 +30,20 @@ withDefaults(
 );
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .empty-icon-wrap {
-  width: 72px;
-  height: 72px;
-  border-radius: 50%;
-  background: rgba(0, 0, 0, 0.03);
+  width: 64px;
+  height: 64px;
+  border-radius: 12px;
+  background-color: #f4f4f5;
+  border: 1px solid #e4e4e7;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 body.body--dark .empty-icon-wrap {
-  background: rgba(255, 255, 255, 0.05);
+  background-color: #18181b;
+  border-color: #27272a;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="hHh Lpr lFf">
+  <q-layout view="hHh Lpr lFf" class="main-layout">
     <!-- Header Superior -->
     <AppHeader />
 
@@ -19,7 +19,16 @@ import AppSidebar from 'src/components/navigation/AppSidebar.vue';
 </script>
 
 <style scoped lang="scss">
+.main-layout {
+  min-height: 100vh;
+  background-color: #fafafa;
+}
+
+body.body--dark .main-layout {
+  background-color: #09090b;
+}
+
 .page-container {
-  min-height: calc(100vh - 50px);
+  min-height: calc(100vh - 54px);
 }
 </style>

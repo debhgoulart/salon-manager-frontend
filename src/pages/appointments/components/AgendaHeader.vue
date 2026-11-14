@@ -1,7 +1,7 @@
 <template>
   <div class="row items-center justify-between q-mb-md agenda-header-container">
     <div>
-      <h1 class="text-h5 text-weight-bold q-my-none">Agenda de Atendimentos</h1>
+      <h1 class="text-h5 text-weight-bold editorial-title q-my-none">Agenda de Atendimentos</h1>
       <p class="text-caption text-grey-7 q-mb-none">
         Visualização diária/semanal e controle de horários
       </p>
@@ -13,12 +13,12 @@
         :model-value="viewMode"
         no-caps
         unelevated
-        rounded
         dense
         color="grey-3"
         text-color="grey-8"
         toggle-color="primary"
         toggle-text-color="white"
+        class="view-mode-toggle"
         :options="[
           { label: 'Dia', value: 'day' },
           { label: 'Semana', value: 'week' },
@@ -42,7 +42,13 @@
       />
 
       <!-- Botão Novo Agendamento -->
-      <q-btn unelevated color="primary" no-caps class="q-px-md" @click="$emit('create')">
+      <q-btn
+        unelevated
+        color="primary"
+        no-caps
+        class="q-px-md new-appointment-btn"
+        @click="$emit('create')"
+      >
         <Plus :size="18" class="q-mr-xs" />
         Novo Agendamento
       </q-btn>
@@ -79,5 +85,19 @@ function onEmployeeChange(val: string | null) {
 <style scoped lang="scss">
 .employee-select {
   min-width: 200px;
+}
+
+.view-mode-toggle {
+  border-radius: 8px;
+  border: 1px solid #e4e4e7;
+}
+
+body.body--dark .view-mode-toggle {
+  border-color: #27272a;
+}
+
+.new-appointment-btn {
+  min-height: 40px;
+  font-weight: 600;
 }
 </style>

@@ -11,15 +11,21 @@
 </template>
 
 <script setup lang="ts">
-// Layout limpo para autenticação
+// Layout editorial para fluxos de autenticação
 </script>
 
 <style scoped lang="scss">
 .auth-layout {
   min-height: 100vh;
-  background:
-    radial-gradient(circle at 10% 20%, rgba(123, 63, 97, 0.08) 0%, transparent 40%),
-    radial-gradient(circle at 90% 80%, rgba(197, 155, 109, 0.08) 0%, transparent 40%);
+  background-color: #fafafa;
+  background-image: radial-gradient(#e4e4e7 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+body.body--dark .auth-layout {
+  background-color: #09090b;
+  background-image: radial-gradient(#27272a 1px, transparent 1px);
+  background-size: 24px 24px;
 }
 
 .auth-card-wrapper {

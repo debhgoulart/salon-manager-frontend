@@ -1,80 +1,94 @@
 <template>
-  <q-card class="login-card q-pa-lg">
-    <!-- Header com Identidade Visual -->
-    <div class="text-center q-mb-lg">
-      <div class="brand-badge q-mb-sm">
+  <q-card class="login-card q-pa-xl">
+    <!-- Header com Identidade Visual Editorial -->
+    <div class="text-center q-mb-xl">
+      <div class="brand-badge q-mb-md">
         <span class="brand-initials">SM</span>
+        <span class="brand-dot" />
       </div>
-      <h1 class="text-h5 text-weight-bold q-my-none text-primary">Salon Manager</h1>
-      <p class="text-caption text-grey-7 q-mt-xs q-mb-none">
-        Gestão integrada, estética e financeira
+      <h1 class="text-h5 text-weight-bold q-my-none text-primary editorial-title">SALON MANAGER</h1>
+      <p class="text-caption text-grey-7 q-mt-xs q-mb-none font-editorial-caption">
+        GESTÃO INTEGRADA &bull; ESTÉTICA &bull; ALTA PERFORMANCE
       </p>
     </div>
 
     <!-- Alerta de Erro -->
-    <q-banner v-if="errorMessage" rounded dense class="bg-negative text-white q-mb-md">
-      <template #avatar>
-        <q-icon name="error_outline" size="sm" />
-      </template>
-      {{ errorMessage }}
-    </q-banner>
+    <div v-if="errorMessage" class="error-banner q-pa-md q-mb-lg row items-center no-wrap">
+      <AlertCircle :size="18" class="text-negative q-mr-sm shrink-0" />
+      <span class="text-caption text-negative">{{ errorMessage }}</span>
+    </div>
 
     <!-- Formulário de Login -->
     <q-form @submit.prevent="handleLogin" class="q-gutter-y-md">
-      <q-input
-        v-model="email"
-        label="E-mail"
-        type="email"
-        outlined
-        dense
-        autocomplete="email"
-        :rules="[
-          (val) => !!val || 'O e-mail é obrigatório',
-          (val) => /.+@.+\..+/.test(val) || 'Formato de e-mail inválido',
-        ]"
-      >
-        <template #prepend>
-          <q-icon name="mail_outline" size="xs" />
-        </template>
-      </q-input>
+      <div>
+        <label class="text-caption text-weight-bold text-grey-8 q-mb-xs block">
+          E-MAIL CORPORATIVO
+        </label>
+        <q-input
+          v-model="email"
+          type="email"
+          outlined
+          dense
+          placeholder="operador@salao.com"
+          autocomplete="email"
+          :rules="[
+            (val) => !!val || 'O e-mail é obrigatório',
+            (val) => /.+@.+\..+/.test(val) || 'Formato de e-mail inválido',
+          ]"
+        >
+          <template #prepend>
+            <Mail :size="16" class="text-grey-6" />
+          </template>
+        </q-input>
+      </div>
 
-      <q-input
-        v-model="password"
-        label="Senha"
-        :type="showPassword ? 'text' : 'password'"
-        outlined
-        dense
-        autocomplete="current-password"
-        :rules="[(val) => !!val || 'A senha é obrigatória']"
-      >
-        <template #prepend>
-          <q-icon name="lock_outline" size="xs" />
-        </template>
-        <template #append>
-          <q-btn
-            flat
-            round
-            dense
-            size="sm"
-            :icon="showPassword ? 'visibility_off' : 'visibility'"
-            @click="showPassword = !showPassword"
-          />
-        </template>
-      </q-input>
+      <div>
+        <label class="text-caption text-weight-bold text-grey-8 q-mb-xs block">
+          SENHA DE ACESSO
+        </label>
+        <q-input
+          v-model="password"
+          :type="showPassword ? 'text' : 'password'"
+          outlined
+          dense
+          placeholder="••••••••"
+          autocomplete="current-password"
+          :rules="[(val) => !!val || 'A senha é obrigatória']"
+        >
+          <template #prepend>
+            <Lock :size="16" class="text-grey-6" />
+          </template>
+          <template #append>
+            <q-btn
+              flat
+              round
+              dense
+              size="sm"
+              class="text-grey-6"
+              :aria-label="showPassword ? 'Ocultar senha' : 'Ver senha'"
+              @click="showPassword = !showPassword"
+            >
+              <EyeOff v-if="showPassword" :size="16" />
+              <Eye v-else :size="16" />
+            </q-btn>
+          </template>
+        </q-input>
+      </div>
 
       <q-btn
         type="submit"
         color="primary"
-        class="full-width q-py-sm q-mt-md"
+        class="full-width login-submit-btn q-mt-lg"
         unelevated
+        no-caps
         :loading="loading"
-        label="Entrar no Sistema"
+        label="Acessar Plataforma"
       />
     </q-form>
 
     <!-- Dica para homologação / ambiente local -->
-    <div class="q-mt-lg text-center text-caption text-grey-6 border-top q-pt-md">
-      Acesso Padrão: <code>admin@salonmanager.com</code>
+    <div class="q-mt-xl text-center text-caption text-grey-6 border-top q-pt-md">
+      Acesso Demonstração: <code>admin@salonmanager.com</code>
     </div>
   </q-card>
 </template>
@@ -86,6 +100,7 @@ import { useAuthStore } from 'src/stores/auth';
 import { useQuasar } from 'quasar';
 import type { AxiosError } from 'axios';
 import type { ProblemDetails } from 'src/types/api';
+import { Mail, Lock, Eye, EyeOff, AlertCircle } from 'lucide-vue-next';
 
 const $q = useQuasar();
 const router = useRouter();
@@ -110,7 +125,7 @@ async function handleLogin() {
 
     $q.notify({
       type: 'positive',
-      message: `Bem-vindo de volta, ${authStore.user?.name || 'Administrador'}!`,
+      message: `Bem-vindo(a), ${authStore.user?.name || 'Administrador'}!`,
       timeout: 2500,
     });
 
@@ -134,35 +149,74 @@ async function handleLogin() {
 
 <style scoped lang="scss">
 .login-card {
-  border-radius: 16px;
-  background: rgba(255, 255, 255, 0.98);
-  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  background-color: #ffffff;
+  border: 1px solid #e4e4e7;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
 }
 
 body.body--dark .login-card {
-  background: rgba(21, 23, 28, 0.98);
+  background-color: #121214;
+  border: 1px solid #27272a;
+  box-shadow: none;
 }
 
 .brand-badge {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 52px;
-  height: 52px;
-  border-radius: 14px;
-  background: linear-gradient(135deg, #7b3f61 0%, #c59b6d 100%);
-  color: #fff;
-  font-weight: 700;
+  position: relative;
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  background-color: #09090b;
+  color: #ffffff;
+  font-weight: 800;
   font-size: 1.25rem;
   letter-spacing: 1px;
-  box-shadow: 0 4px 12px rgba(123, 63, 97, 0.25);
+  border: 1px solid #27272a;
+}
+
+body.body--dark .brand-badge {
+  background-color: #f4f4f5;
+  color: #09090b;
+  border: 1px solid #e4e4e7;
+}
+
+.brand-dot {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #e11d48; // Carmim Fashion
+}
+
+.font-editorial-caption {
+  letter-spacing: 0.08em;
+  font-size: 0.68rem;
+  font-weight: 600;
+}
+
+.error-banner {
+  border-radius: 8px;
+  background-color: rgba(225, 29, 72, 0.08);
+  border: 1px solid rgba(225, 29, 72, 0.2);
+}
+
+.login-submit-btn {
+  height: 44px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
 }
 
 .border-top {
-  border-top: 1px dashed rgba(0, 0, 0, 0.1);
+  border-top: 1px solid #e4e4e7;
 }
 
 body.body--dark .border-top {
-  border-top-color: rgba(255, 255, 255, 0.1);
+  border-top-color: #27272a;
 }
 </style>

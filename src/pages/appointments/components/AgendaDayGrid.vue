@@ -40,9 +40,14 @@ defineEmits<{
 
 <style scoped lang="scss">
 .schedule-grid-card {
-  background: white;
+  background-color: #ffffff;
   border-radius: 8px;
-  border: 1px solid #e0e0e0;
+  border: 1px solid #e4e4e7;
+}
+
+body.body--dark .schedule-grid-card {
+  background-color: #121214;
+  border-color: #27272a;
 }
 
 .time-grid {
@@ -53,11 +58,15 @@ defineEmits<{
 .time-row {
   display: flex;
   min-height: 80px;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid #f4f4f5;
 
   &:last-child {
     border-bottom: none;
   }
+}
+
+body.body--dark .time-row {
+  border-bottom-color: #18181b;
 }
 
 .time-label {
@@ -65,11 +74,18 @@ defineEmits<{
   min-width: 70px;
   padding: 12px 8px;
   text-align: right;
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: #757575;
-  border-right: 1px solid #f0f0f0;
+  font-size: 0.78rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: #71717a;
+  border-right: 1px solid #f4f4f5;
   background-color: #fafafa;
+}
+
+body.body--dark .time-label {
+  color: #a1a1aa;
+  border-right-color: #18181b;
+  background-color: #18181b;
 }
 
 .time-slot-area {
@@ -82,8 +98,12 @@ defineEmits<{
   transition: background-color 0.15s ease;
 
   &:hover {
-    background-color: #fbfbfb;
+    background-color: rgba(9, 9, 11, 0.02);
   }
+}
+
+body.body--dark .time-slot-area:hover {
+  background-color: rgba(244, 244, 245, 0.02);
 }
 
 .appointment-card-wrapper {

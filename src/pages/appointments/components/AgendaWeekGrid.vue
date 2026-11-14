@@ -3,15 +3,15 @@
     <q-card flat class="schedule-grid-card">
       <!-- Cabeçalho dos 7 Dias da Semana -->
       <div class="week-header-row">
-        <div class="week-time-gutter"></div>
+        <div class="week-time-gutter" />
         <div
           v-for="day in weekDays"
           :key="day.dateStr"
           class="week-day-col-header"
           :class="{ 'is-today': day.isToday }"
         >
-          <div class="text-caption text-weight-medium">{{ day.dayName }}</div>
-          <div class="text-subtitle1 text-weight-bold">{{ day.dayNumber }}</div>
+          <div class="text-caption text-weight-medium font-caption-tight">{{ day.dayName }}</div>
+          <div class="text-subtitle1 text-weight-bold font-mono-day">{{ day.dayNumber }}</div>
         </div>
       </div>
 
@@ -65,16 +65,26 @@ defineEmits<{
 }
 
 .schedule-grid-card {
-  background: white;
+  background-color: #ffffff;
   border-radius: 8px;
-  border: 1px solid #e0e0e0;
+  border: 1px solid #e4e4e7;
   min-width: 760px;
+}
+
+body.body--dark .schedule-grid-card {
+  background-color: #121214;
+  border-color: #27272a;
 }
 
 .week-header-row {
   display: flex;
-  border-bottom: 2px solid #e0e0e0;
+  border-bottom: 2px solid #e4e4e7;
   background-color: #fafafa;
+}
+
+body.body--dark .week-header-row {
+  border-bottom-color: #27272a;
+  background-color: #18181b;
 }
 
 .week-time-gutter {
@@ -86,14 +96,33 @@ defineEmits<{
   flex: 1;
   text-align: center;
   padding: 8px 4px;
-  border-left: 1px solid #f0f0f0;
+  border-left: 1px solid #e4e4e7;
 
   &.is-today {
-    background-color: #f7f2f5;
-    color: #7b3f61;
+    background-color: rgba(225, 29, 72, 0.05);
+    color: #09090b;
     font-weight: bold;
-    border-top: 3px solid #7b3f61;
+    border-top: 3px solid #e11d48;
   }
+}
+
+body.body--dark .week-day-col-header {
+  border-left-color: #27272a;
+
+  &.is-today {
+    background-color: rgba(225, 29, 72, 0.1);
+    color: #f4f4f5;
+  }
+}
+
+.font-caption-tight {
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.font-mono-day {
+  font-variant-numeric: tabular-nums;
 }
 
 .week-body {
@@ -103,12 +132,16 @@ defineEmits<{
 
 .week-time-row {
   display: flex;
-  min-height: 70px;
-  border-bottom: 1px solid #f0f0f0;
+  min-height: 80px;
+  border-bottom: 1px solid #f4f4f5;
 
   &:last-child {
     border-bottom: none;
   }
+}
+
+body.body--dark .week-time-row {
+  border-bottom-color: #18181b;
 }
 
 .week-time-label {
@@ -117,24 +150,38 @@ defineEmits<{
   padding: 8px 4px;
   text-align: right;
   font-size: 0.75rem;
-  font-weight: 600;
-  color: #757575;
-  border-right: 1px solid #f0f0f0;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: #71717a;
+  border-right: 1px solid #e4e4e7;
   background-color: #fafafa;
+}
+
+body.body--dark .week-time-label {
+  color: #a1a1aa;
+  border-right-color: #27272a;
+  background-color: #18181b;
 }
 
 .week-day-slot {
   flex: 1;
-  border-left: 1px solid #f0f0f0;
+  border-left: 1px solid #f4f4f5;
   padding: 4px;
   cursor: pointer;
   display: flex;
   flex-direction: column;
-  gap: 4px;
   transition: background-color 0.15s ease;
 
   &:hover {
-    background-color: #fbfbfb;
+    background-color: rgba(9, 9, 11, 0.02);
+  }
+}
+
+body.body--dark .week-day-slot {
+  border-left-color: #18181b;
+
+  &:hover {
+    background-color: rgba(244, 244, 245, 0.02);
   }
 }
 
