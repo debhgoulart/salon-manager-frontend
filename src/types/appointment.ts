@@ -36,3 +36,18 @@ export interface TimeSlot {
   endTime: string; // HH:mm
   available: boolean;
 }
+
+export interface AgendaNavigationState {
+  viewMode: 'day' | 'week';
+  selectedDate: string; // YYYY-MM-DD
+  selectedEmployeeId: string | null;
+}
+
+export interface AppointmentFormData {
+  clientId: string | null;
+  employeeId: string | null;
+  serviceId: string | null;
+  date: string; // YYYY-MM-DD
+  time: string; // HH:mm
+  notes?: string | undefined;
+}
